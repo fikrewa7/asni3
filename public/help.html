@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="h-full">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help &amp; Support — Asni Guest House</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Ethiopic:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/help.css">
+</head>
+<body>
+
+<div class="help-shell">
+
+  <!-- HEADER -->
+  <header class="help-header">
+    <div class="header-left">
+      <button class="icon-btn menu-toggle" id="menuToggle" data-i18n-title="menu" title="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <a href="index.html" class="logo-mark" title="Home">A</a>
+      <div class="brand">
+        <h1 class="brand-title">
+          <span data-i18n="help_title">Help &amp; Support</span>
+          <span class="brand-chip">Guide</span>
+        </h1>
+        <p class="brand-sub" data-i18n="help_sub">Everything you need to use Asni Guest House</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="icon-btn" id="themeToggle" data-i18n-title="theme_toggle" title="Toggle theme">
+        <i class="fa-solid fa-moon" id="themeIcon"></i>
+      </button>
+      <button class="lang-btn" id="langToggle" data-i18n-title="lang_toggle" title="Change language">
+        <i class="fa-solid fa-language"></i>
+        <span id="langLabel">EN</span>
+      </button>
+      <a href="index.html" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span data-i18n="back_to_app">Back to App</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="help-body">
+
+    <!-- SIDEBAR -->
+    <aside class="help-sidebar" id="sidebar">
+      <div class="sidebar-search">
+        <div class="search-wrap">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" class="search-input" id="searchInput" placeholder="Search help…" data-i18n-placeholder="search_placeholder">
+        </div>
+      </div>
+
+      <nav class="sidebar-nav" id="tocNav">
+        <div class="sidebar-label" data-i18n="toc_getting_started">Getting Started</div>
+        <a class="toc-link active" href="#intro" data-target="intro" data-keywords="welcome introduction overview start">
+          <i class="fa-solid fa-flag toc-icon"></i><span data-i18n="toc_intro">Introduction</span>
+        </a>
+        <a class="toc-link" href="#getting-started" data-target="getting-started" data-keywords="login setup first time connect">
+          <i class="fa-solid fa-rocket toc-icon"></i><span data-i18n="toc_start">Getting Started</span>
+        </a>
+        <a class="toc-link" href="#roles" data-target="roles" data-keywords="admin receptionist guest permissions access">
+          <i class="fa-solid fa-user-shield toc-icon"></i><span data-i18n="toc_roles">Roles &amp; Permissions</span>
+        </a>
+
+        <div class="sidebar-label" data-i18n="toc_features">Features</div>
+        <a class="toc-link" href="#dashboard" data-target="dashboard" data-keywords="dashboard kpi revenue chart analytics">
+          <i class="fa-solid fa-chart-pie toc-icon"></i><span data-i18n="toc_dashboard">Dashboard</span>
+        </a>
+        <a class="toc-link" href="#rooms-help" data-target="rooms-help" data-keywords="rooms manage inventory pricing status">
+          <i class="fa-solid fa-bed toc-icon"></i><span data-i18n="toc_rooms">Managing Rooms</span>
+        </a>
+        <a class="toc-link" href="#bookings-help" data-target="bookings-help" data-keywords="bookings reservations check-in check-out">
+          <i class="fa-solid fa-calendar-check toc-icon"></i><span data-i18n="toc_bookings">Bookings</span>
+        </a>
+        <a class="toc-link" href="#restaurant-help" data-target="restaurant-help" data-keywords="restaurant menu orders kitchen food dishes">
+          <i class="fa-solid fa-utensils toc-icon"></i><span data-i18n="toc_restaurant">Restaurant &amp; Orders</span>
+        </a>
+        <a class="toc-link" href="#tables-help" data-target="tables-help" data-keywords="tables seating zones garden rooftop">
+          <i class="fa-solid fa-chair toc-icon"></i><span data-i18n="toc_tables">Restaurant Tables</span>
+        </a>
+        <a class="toc-link" href="#users-help" data-target="users-help" data-keywords="users staff accounts roles admin">
+          <i class="fa-solid fa-users toc-icon"></i><span data-i18n="toc_users">Users &amp; Staff</span>
+        </a>
+        <a class="toc-link" href="#reports-help" data-target="reports-help" data-keywords="reports financial revenue csv export ledger">
+          <i class="fa-solid fa-file-invoice-dollar toc-icon"></i><span data-i18n="toc_reports">Financial Reports</span>
+        </a>
+        <a class="toc-link" href="#banners-help" data-target="banners-help" data-keywords="banners ads promotions">
+          <i class="fa-solid fa-bullhorn toc-icon"></i><span data-i18n="toc_banners">Ad Banners</span>
+        </a>
+        <a class="toc-link" href="#sql-help" data-target="sql-help" data-keywords="sql console d1 database query admin">
+          <i class="fa-solid fa-database toc-icon"></i><span data-i18n="toc_sql">SQL Console</span>
+        </a>
+
+        <div class="sidebar-label" data-i18n="toc_settings">Settings</div>
+        <a class="toc-link" href="#themes" data-target="themes" data-keywords="theme dark light mode appearance">
+          <i class="fa-solid fa-circle-half-stroke toc-icon"></i><span data-i18n="toc_theme">Themes</span>
+        </a>
+        <a class="toc-link" href="#languages" data-target="languages" data-keywords="language amharic english translation locale">
+          <i class="fa-solid fa-language toc-icon"></i><span data-i18n="toc_lang">Languages</span>
+        </a>
+
+        <div class="sidebar-label" data-i18n="toc_trouble">Troubleshooting</div>
+        <a class="toc-link" href="#shortcuts" data-target="shortcuts" data-keywords="keyboard shortcuts hotkeys">
+          <i class="fa-solid fa-keyboard toc-icon"></i><span data-i18n="toc_shortcuts">Keyboard Shortcuts</span>
+        </a>
+        <a class="toc-link" href="#faq" data-target="faq" data-keywords="faq questions answers problems">
+          <i class="fa-solid fa-circle-question toc-icon"></i><span data-i18n="toc_faq">FAQ</span>
+        </a>
+        <a class="toc-link" href="#troubleshooting" data-target="troubleshooting" data-keywords="errors offline connection problems">
+          <i class="fa-solid fa-wrench toc-icon"></i><span data-i18n="toc_troubleshoot">Common Issues</span>
+        </a>
+        <a class="toc-link" href="#contact" data-target="contact" data-keywords="contact support email phone help">
+          <i class="fa-solid fa-headset toc-icon"></i><span data-i18n="toc_contact">Contact Support</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="sidebar-foot-row">
+          <span data-i18n="version">Version</span>
+          <span class="sidebar-foot-chip">v3.0</span>
+        </div>
+        <div class="sidebar-foot-copy">Asni Guest House · Jimma</div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="help-main" id="mainContent">
+      <div class="content-inner">
+
+        <!-- HERO -->
+        <div class="hero" id="intro">
+          <span class="hero-kicker"><i class="fa-solid fa-book-open"></i> <span data-i18n="hero_kicker">User Guide</span></span>
+          <h1 data-i18n="hero_title">Welcome to Asni Guest House</h1>
+          <p data-i18n="hero_sub">A complete guide to using the Asni Guest House management system. Learn how to manage rooms, bookings, restaurant orders, staff accounts, and financial reports — for admins, receptionists, and guests.</p>
+          <div class="hero-actions">
+            <a href="#getting-started" class="btn-hero primary">
+              <i class="fa-solid fa-rocket"></i>
+              <span data-i18n="btn_get_started">Get Started</span>
+            </a>
+            <a href="#faq" class="btn-hero secondary">
+              <i class="fa-solid fa-circle-question"></i>
+              <span data-i18n="btn_view_faq">View FAQ</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- QUICK STATS -->
+        <div class="quick-stats">
+          <a href="#rooms-help" class="qstat emerald">
+            <div class="qstat-num">9</div>
+            <div class="qstat-lbl" data-i18n="qs_modules">Modules</div>
+          </a>
+          <a href="#roles" class="qstat sky">
+            <div class="qstat-num">3</div>
+            <div class="qstat-lbl" data-i18n="qs_roles">User Roles</div>
+          </a>
+          <a href="#shortcuts" class="qstat">
+            <div class="qstat-num">10+</div>
+            <div class="qstat-lbl" data-i18n="qs_shortcuts">Shortcuts</div>
+          </a>
+          <a href="#contact" class="qstat rose">
+            <div class="qstat-num">24/7</div>
+            <div class="qstat-lbl" data-i18n="qs_support">Support</div>
+          </a>
+        </div>
+
+        <!-- GETTING STARTED -->
+        <section class="section" id="getting-started">
+          <div class="section-header">
+            <div class="section-icon emerald"><i class="fa-solid fa-rocket"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="gs_title">Getting Started</h2>
+              <p class="section-sub" data-i18n="gs_sub">Your first 5 minutes with the app</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-1"></i> <span data-i18n="gs_step1_title">Open the app</span></div>
+            <div class="card-body" data-i18n="gs_step1_body">Visit asni-guest-house.vercel.app in any modern browser (Chrome, Edge, Firefox, or Safari). The app loads instantly — no installation required.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-2"></i> <span data-i18n="gs_step2_title">Choose your role</span></div>
+            <div class="card-body" data-i18n="gs_step2_body">Use the role dropdown in the top-right of the header to switch between Admin, Receptionist, and Guest views. The colour of the top bar and the visible menu items change instantly.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-3"></i> <span data-i18n="gs_step3_title">Explore the sidebar</span></div>
+            <div class="card-body" data-i18n="gs_step3_body">The left sidebar is your main navigation. Click any item to jump to that module. On mobile, tap the menu icon to reveal it.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-4"></i> <span data-i18n="gs_step4_title">Try adding a record</span></div>
+            <div class="card-body" data-i18n="gs_step4_body">Start with Rooms → click Add Room. Fill in the form and press Save Room. A green toast confirms the save and the new room appears in the table instantly.</div>
+          </div>
+
+          <div class="callout info">
+            <i class="fa-solid fa-circle-info"></i>
+            <div>
+              <strong data-i18n="gs_tip">Tip:</strong>
+              <span data-i18n="gs_tip_body">The app works offline. If the network is down, you'll see "D1 Offline — Local Cache" in the header and everything still works with cached data.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ROLES -->
+        <section class="section" id="roles">
+          <div class="section-header">
+            <div class="section-icon indigo"><i class="fa-solid fa-user-shield"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="roles_title">Roles &amp; Permissions</h2>
+              <p class="section-sub" data-i18n="roles_sub">What each user type can see and do</p>
+            </div>
+          </div>
+
+          <div class="role-grid">
+            <div class="role-card admin">
+              <div class="role-card-head"><i class="fa-solid fa-user-shield"></i><span data-i18n="role_admin_full">Admin</span></div>
+              <ul class="role-list">
+                <li class="yes" data-i18n="rp_admin_dash">Full dashboard access</li>
+                <li class="yes" data-i18n="rp_admin_rooms">Manage rooms, pricing, availability</li>
+                <li class="yes" data-i18n="rp_admin_users">Create &amp; edit staff accounts</li>
+                <li class="yes" data-i18n="rp_admin_bookings">Full booking control</li>
+                <li class="yes" data-i18n="rp_admin_finance">Financial reports &amp; CSV export</li>
+                <li class="yes" data-i18n="rp_admin_sql">SQL console &amp; schema reset</li>
+              </ul>
+            </div>
+            <div class="role-card receptionist">
+              <div class="role-card-head"><i class="fa-solid fa-headset"></i><span data-i18n="role_recept_full">Receptionist</span></div>
+              <ul class="role-list">
+                <li class="yes" data-i18n="rp_recept_dash">Dashboard (no revenue details)</li>
+                <li class="yes" data-i18n="rp_recept_rooms">View &amp; update room status</li>
+                <li class="yes" data-i18n="rp_recept_users">View users (no delete)</li>
+                <li class="yes" data-i18n="rp_recept_bookings">Create &amp; manage bookings</li>
+                <li class="yes" data-i18n="rp_recept_orders">Restaurant &amp; kitchen orders</li>
+                <li class="no" data-i18n="rp_recept_finance">No financial reports</li>
+                <li class="no" data-i18n="rp_recept_sql">No SQL console access</li>
+              </ul>
+            </div>
+            <div class="role-card guest">
+              <div class="role-card-head"><i class="fa-solid fa-user"></i><span data-i18n="role_guest_full">Guest</span></div>
+              <ul class="role-list">
+                <li class="yes" data-i18n="rp_guest_dash">Dashboard overview</li>
+                <li class="yes" data-i18n="rp_guest_rooms">View room availability</li>
+                <li class="yes" data-i18n="rp_guest_bookings">View own bookings</li>
+                <li class="yes" data-i18n="rp_guest_menu">Browse menu &amp; place orders</li>
+                <li class="no" data-i18n="rp_guest_users">No user management</li>
+                <li class="no" data-i18n="rp_guest_finance">No financial data</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="callout warn mt-1">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div>
+              <strong data-i18n="roles_switch">Switching roles:</strong>
+              <span data-i18n="roles_switch_body">Use the dropdown in the header. Your choice is remembered across sessions. If you switch to Guest while viewing a restricted page, you'll be automatically redirected to the Dashboard.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- DASHBOARD -->
+        <section class="section" id="dashboard">
+          <div class="section-header">
+            <div class="section-icon amber"><i class="fa-solid fa-chart-pie"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="dash_help_title">Dashboard Overview</h2>
+              <p class="section-sub" data-i18n="dash_help_sub">Your at-a-glance command centre</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-money-bill-wave"></i> <span data-i18n="dh_kpi">The four KPI cards</span></div>
+            <div class="card-body" data-i18n="dh_kpi_body">The top row shows real-time metrics: Total Revenue (rooms + dining), Occupancy Rate (percentage of rooms currently occupied), Active Bookings, and Available Menu Items. These update automatically whenever you add, edit, or delete data.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-chart-line"></i> <span data-i18n="dh_charts">Charts</span></div>
+            <div class="card-body" data-i18n="dh_charts_body">The Revenue Trend line chart shows the last six months of combined income from bookings and orders. The Room Categories doughnut chart shows how your inventory splits across Standard, Deluxe, Executive Suite, and Family Suite room types.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-bullhorn"></i> <span data-i18n="dh_banner">Promotional banner</span></div>
+            <div class="card-body" data-i18n="dh_banner_body">The coloured banner at the top of the dashboard rotates through your active promotional slides. Manage them under Ad Banners in the sidebar.</div>
+          </div>
+        </section>
+
+        <!-- ROOMS -->
+        <section class="section" id="rooms-help">
+          <div class="section-header">
+            <div class="section-icon emerald"><i class="fa-solid fa-bed"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="rh_title">Managing Rooms</h2>
+              <p class="section-sub" data-i18n="rh_sub">Add, edit, and track room inventory</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-plus"></i> <span data-i18n="rh_add">Adding a new room</span></div>
+            <ol class="steps">
+              <li data-i18n="rh_add_1">Click Rooms in the sidebar.</li>
+              <li data-i18n="rh_add_2">Click the Add Room button (top right).</li>
+              <li data-i18n="rh_add_3">Fill in: Room Number, Capacity, Room Type, Price per Night, Status, and an optional Description.</li>
+              <li data-i18n="rh_add_4">Press Save Room. The room appears in the table immediately.</li>
+            </ol>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-pen"></i> <span data-i18n="rh_edit">Editing a room</span></div>
+            <div class="card-body" data-i18n="rh_edit_body">Click the blue edit button on any room row. The form opens with all current values pre-filled. Modify anything and press Save Room.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-trash"></i> <span data-i18n="rh_delete">Deleting a room</span></div>
+            <div class="card-body" data-i18n="rh_delete_body">Click the red trash button. A confirmation dialog appears — because deleting a room also removes any bookings linked to it. Only Admin can delete.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-circle-half-stroke"></i> <span data-i18n="rh_status">Room statuses</span></div>
+            <div class="card-body" data-i18n="rh_status_body">Every room has one of four statuses, each with its own colour:</div>
+            <ul class="status-legend">
+              <li><strong class="txt-emerald">Available</strong> — <span data-i18n="rh_status_available">ready for a new guest</span></li>
+              <li><strong class="txt-rose">Occupied</strong> — <span data-i18n="rh_status_occupied">currently has a checked-in guest</span></li>
+              <li><strong class="txt-amber">Cleaning</strong> — <span data-i18n="rh_status_cleaning">being serviced after checkout</span></li>
+              <li><strong class="txt-purple">Maintenance</strong> — <span data-i18n="rh_status_maintenance">temporarily out of service</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- BOOKINGS -->
+        <section class="section" id="bookings-help">
+          <div class="section-header">
+            <div class="section-icon sky"><i class="fa-solid fa-calendar-check"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="bh_title">Bookings &amp; Reservations</h2>
+              <p class="section-sub" data-i18n="bh_sub">The heart of daily operations</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-calendar-plus"></i> <span data-i18n="bh_create">Creating a booking</span></div>
+            <ol class="steps">
+              <li data-i18n="bh_create_1">Open the Bookings module.</li>
+              <li data-i18n="bh_create_2">Click New Booking.</li>
+              <li data-i18n="bh_create_3">Choose a room from the dropdown. The price per night is shown.</li>
+              <li data-i18n="bh_create_4">Enter the guest's name and phone number.</li>
+              <li data-i18n="bh_create_5">Pick check-in and check-out dates. The total is auto-calculated.</li>
+              <li data-i18n="bh_create_6">Set status and press Save Booking.</li>
+            </ol>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-grip"></i> <span data-i18n="bh_grid">Live room status grid</span></div>
+            <div class="card-body" data-i18n="bh_grid_body">Above the bookings table is a coloured grid showing every room's current status. Green = Available, red = Occupied, amber = Cleaning, purple = Maintenance. Use it as a quick visual overview.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-arrows-rotate"></i> <span data-i18n="bh_autosync">Automatic room status updates</span></div>
+            <div class="card-body" data-i18n="bh_autosync_body">When you set a booking's status to CheckedIn, the linked room automatically becomes Occupied. When you set it to CheckedOut or Cancelled, the room becomes Cleaning. This keeps room inventory in sync without manual updates.</div>
+          </div>
+
+          <div class="callout success">
+            <i class="fa-solid fa-lightbulb"></i>
+            <div>
+              <strong data-i18n="bh_tip">Time-saver:</strong>
+              <span data-i18n="bh_tip_body">Pick the check-in date first, then the check-out date. The total ETB is recalculated every time either date changes.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- RESTAURANT -->
+        <section class="section" id="restaurant-help">
+          <div class="section-header">
+            <div class="section-icon rose"><i class="fa-solid fa-utensils"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="rest_title">Restaurant &amp; Orders</h2>
+              <p class="section-sub" data-i18n="rest_sub">Menu management and kitchen workflow</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-book"></i> <span data-i18n="rest_menu">The menu catalog</span></div>
+            <div class="card-body" data-i18n="rest_menu_body">Every dish appears as a card showing its category, availability status, name, description, and price. Available dishes have a green badge; hidden dishes have a red badge and don't appear in the order cart.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-plus"></i> <span data-i18n="rest_add">Adding a dish</span></div>
+            <ol class="steps">
+              <li data-i18n="rest_add_1">In the Restaurant module, click Add Dish.</li>
+              <li data-i18n="rest_add_2">Enter the name, category, and price in ETB.</li>
+              <li data-i18n="rest_add_3">Tick Available on menu if it should be visible to guests.</li>
+              <li data-i18n="rest_add_4">Add a short description and press Save Menu Item.</li>
+            </ol>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="rest_order">Placing an order</span></div>
+            <ol class="steps">
+              <li data-i18n="rest_order_1">Click the pink plus on any dish card. It's added to the cart.</li>
+              <li data-i18n="rest_order_2">The cart badge in the header shows the current item count.</li>
+              <li data-i18n="rest_order_3">Click the Cart button (top right).</li>
+              <li data-i18n="rest_order_4">Choose Room Service or Restaurant Table.</li>
+              <li data-i18n="rest_order_5">Pick the target room or table from the dropdown.</li>
+              <li data-i18n="rest_order_6">Review the cart, then press Submit Order.</li>
+            </ol>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-receipt"></i> <span data-i18n="rest_kitchen">Kitchen orders queue</span></div>
+            <div class="card-body" data-i18n="rest_kitchen_body">Below the menu is the live orders queue. Every submitted order appears here with its type, target, items summary, total, and status. Statuses progress: Pending → Preparing → Served. Use the edit button to advance an order's status, or the trash button to delete it.</div>
+          </div>
+
+          <div class="callout info">
+            <i class="fa-solid fa-circle-info"></i>
+            <div>
+              <strong data-i18n="rest_dup">Duplicate items:</strong>
+              <span data-i18n="rest_dup_body">Adding the same dish twice increments its quantity in the cart instead of creating a duplicate line — much cleaner when ordering large tables.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- TABLES -->
+        <section class="section" id="tables-help">
+          <div class="section-header">
+            <div class="section-icon teal"><i class="fa-solid fa-chair"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="th_title">Restaurant Tables</h2>
+              <p class="section-sub" data-i18n="th_sub">Seating inventory for the dining room</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-map-location-dot"></i> <span data-i18n="th_zones">Three zones</span></div>
+            <div class="card-body" data-i18n="th_zones_body">Every table belongs to one of three zones: Indoor Main, Garden Patio, or Rooftop Lounge. Each has its own capacity and status (Available, Reserved, Occupied).</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-plus"></i> <span data-i18n="th_add">Adding a table</span></div>
+            <ol class="steps">
+              <li data-i18n="th_add_1">Open the Restaurant Tables module.</li>
+              <li data-i18n="th_add_2">Click Add Table.</li>
+              <li data-i18n="th_add_3">Enter the table number (e.g. <code>T-01</code>), capacity, zone, and initial status.</li>
+              <li data-i18n="th_add_4">Press Save Table.</li>
+            </ol>
+          </div>
+
+          <div class="callout success">
+            <i class="fa-solid fa-link"></i>
+            <div>
+              <strong data-i18n="th_integration">Integration:</strong>
+              <span data-i18n="th_integration_body">Every table you add here becomes a selectable target in the order cart dropdown. Add all your tables first, then place orders against them directly.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- USERS -->
+        <section class="section" id="users-help">
+          <div class="section-header">
+            <div class="section-icon sky"><i class="fa-solid fa-users"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="uh_title">Users &amp; Staff</h2>
+              <p class="section-sub" data-i18n="uh_sub">Manage who can access the system</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-user-plus"></i> <span data-i18n="uh_add">Registering a new user</span></div>
+            <ol class="steps">
+              <li data-i18n="uh_add_1">Open the Users &amp; Staff module.</li>
+              <li data-i18n="uh_add_2">Click Add User.</li>
+              <li data-i18n="uh_add_3">Fill in Full Name, Email (must be unique), Phone, and Role.</li>
+              <li data-i18n="uh_add_4">Press Save User.</li>
+            </ol>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-id-badge"></i> <span data-i18n="uh_roles">The three roles</span></div>
+            <div class="card-body" data-i18n="uh_roles_body">Choose admin for owners/managers, receptionist for front-desk staff, and guest for visitor accounts. See the Roles &amp; Permissions section above for the exact capabilities of each.</div>
+          </div>
+
+          <div class="callout warn">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div>
+              <strong data-i18n="uh_unique">Unique emails:</strong>
+              <span data-i18n="uh_unique_body">Every user must have a distinct email address. If you try to save a duplicate, D1 rejects the insert and you'll see a red error toast.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- REPORTS -->
+        <section class="section" id="reports-help">
+          <div class="section-header">
+            <div class="section-icon emerald"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="rep_title">Financial Reports</h2>
+              <p class="section-sub" data-i18n="rep_sub">Live revenue ledger &amp; CSV export</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-chart-simple"></i> <span data-i18n="rep_kpi">Revenue breakdown</span></div>
+            <div class="card-body" data-i18n="rep_kpi_body">Three summary cards at the top show Room Revenue, Restaurant Revenue, and the Grand Total. These are computed live from the bookings and orders tables — there is no separate ledger to maintain.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-table"></i> <span data-i18n="rep_ledger">Transaction ledger</span></div>
+            <div class="card-body" data-i18n="rep_ledger_body">Below the summary, every transaction appears as a row with its reference number (B&lt;id&gt; for bookings, O&lt;id&gt; for orders), date, type, description, payer, and amount. Rows are sorted by date, most recent first.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-file-csv"></i> <span data-i18n="rep_csv">CSV export</span></div>
+            <div class="card-body" data-i18n="rep_csv_body">Click Export CSV to download the entire ledger as a spreadsheet-ready file. Open it in Excel, Google Sheets, or Numbers for further analysis.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-print"></i> <span data-i18n="rep_receipt">Printing receipts</span></div>
+            <div class="card-body" data-i18n="rep_receipt_body">Click the print button on any row to open a branded receipt in a printable format. Press Ctrl+P (or Cmd+P on Mac) or click the Print button.</div>
+          </div>
+        </section>
+
+        <!-- BANNERS -->
+        <section class="section" id="banners-help">
+          <div class="section-header">
+            <div class="section-icon purple"><i class="fa-solid fa-bullhorn"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="ban_title">Ad Banners</h2>
+              <p class="section-sub" data-i18n="ban_sub">Promotional slides for the dashboard</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-plus"></i> <span data-i18n="ban_add">Creating a banner</span></div>
+            <ol class="steps">
+              <li data-i18n="ban_add_1">Open the Ad Banners module.</li>
+              <li data-i18n="ban_add_2">Click Create Banner.</li>
+              <li data-i18n="ban_add_3">Enter a short title (e.g. "Jimma Coffee Tour"), a description, and an offer tag.</li>
+              <li data-i18n="ban_add_4">Choose a badge colour for the tag.</li>
+              <li data-i18n="ban_add_5">Tick Active to make it visible on the dashboard.</li>
+              <li data-i18n="ban_add_6">Press Save Banner.</li>
+            </ol>
+          </div>
+
+          <div class="callout info">
+            <i class="fa-solid fa-lightbulb"></i>
+            <div>
+              <strong data-i18n="ban_rotate">Rotation:</strong>
+              <span data-i18n="ban_rotate_body">Only active banners appear on the dashboard. Currently the most recent active banner is featured in the hero area; you can hide a banner at any time by unticking the Active checkbox.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SQL -->
+        <section class="section" id="sql-help">
+          <div class="section-header">
+            <div class="section-icon teal"><i class="fa-solid fa-database"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="sql_title_help">Cloudflare D1 SQL Console</h2>
+              <p class="section-sub" data-i18n="sql_sub_help">Advanced database access — Admin only</p>
+            </div>
+          </div>
+
+          <div class="callout danger">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div>
+              <strong data-i18n="sql_danger">Admin only.</strong>
+              <span data-i18n="sql_danger_body">This module runs raw SQL against your production database. There is no undo. Only use it if you understand SQL.</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-play"></i> <span data-i18n="sql_run">Running a query</span></div>
+            <ol class="steps">
+              <li data-i18n="sql_run_1">Open the D1 SQL Console.</li>
+              <li data-i18n="sql_run_2">Type your SQL into the editor (e.g. <code>SELECT * FROM rooms;</code>).</li>
+              <li data-i18n="sql_run_3">Click Run Query. Results appear as formatted JSON below.</li>
+            </ol>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-code"></i> <span data-i18n="sql_examples">Useful query examples</span></div>
+            <div class="card-body">
+              <div class="code-block">
+                <div class="code-cm">-- List all occupied rooms</div>
+                <div>SELECT room_number, room_type FROM rooms WHERE status = 'Occupied';</div>
+                <br>
+                <div class="code-cm">-- Count bookings per room</div>
+                <div>SELECT room_id, COUNT(*) as total FROM bookings GROUP BY room_id;</div>
+                <br>
+                <div class="code-cm">-- Today's orders</div>
+                <div>SELECT * FROM orders WHERE DATE(created_at) = DATE('now');</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-rotate-left"></i> <span data-i18n="sql_reset">Resetting the schema</span></div>
+            <div class="card-body" data-i18n="sql_reset_body">The Reset Schema button wipes all tables and re-creates them with the original column definitions. All data is lost. Use this only when you want to start fresh — for example, after a demo or test session.</div>
+          </div>
+        </section>
+
+        <!-- THEMES -->
+        <section class="section" id="themes">
+          <div class="section-header">
+            <div class="section-icon amber"><i class="fa-solid fa-circle-half-stroke"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="theme_title">Themes: Dark &amp; Light</h2>
+              <p class="section-sub" data-i18n="theme_sub">Comfort for day and night shifts</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-moon"></i> <span data-i18n="theme_how">How to toggle</span></div>
+            <div class="card-body" data-i18n="theme_how_body">Click the moon / sun icon in the header. The entire app — panels, tables, modals, forms, charts, and toasts — flips instantly between dark and light.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-save"></i> <span data-i18n="theme_persist">Remembered across visits</span></div>
+            <div class="card-body" data-i18n="theme_persist_body">Your theme preference is saved in your browser. When you return to the app, the same theme loads automatically before the first paint — no flash.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-clock"></i> <span data-i18n="theme_when">When to use each</span></div>
+            <div class="card-body" data-i18n="theme_when_body">Dark theme is the default and best for evening or night shifts — it reduces eye strain in dim lighting. Light theme works best during daytime and for printing or screenshots.</div>
+          </div>
+        </section>
+
+        <!-- LANGUAGES -->
+        <section class="section" id="languages">
+          <div class="section-header">
+            <div class="section-icon sky"><i class="fa-solid fa-language"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="lang_title">Languages: English &amp; አማርኛ</h2>
+              <p class="section-sub" data-i18n="lang_sub">Switch the entire interface instantly</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-globe"></i> <span data-i18n="lang_how">How to switch</span></div>
+            <div class="card-body" data-i18n="lang_how_body">Click the language button in the header. It cycles between EN (English) and አማ (Amharic). Every label, table header, form field, toast, and modal is translated.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-check-circle"></i> <span data-i18n="lang_what">What gets translated</span></div>
+            <ul class="role-list role-list-plain">
+              <li class="yes" data-i18n="lang_what_1">All navigation and page titles</li>
+              <li class="yes" data-i18n="lang_what_2">Buttons, table headers, form labels</li>
+              <li class="yes" data-i18n="lang_what_3">Room types, statuses, categories, zones</li>
+              <li class="yes" data-i18n="lang_what_4">Toast notifications and error messages</li>
+              <li class="yes" data-i18n="lang_what_5">Receipts and printed documents</li>
+              <li class="yes" data-i18n="lang_what_6">Chart legends and month names</li>
+            </ul>
+          </div>
+
+          <div class="callout info">
+            <i class="fa-solid fa-database"></i>
+            <div>
+              <strong data-i18n="lang_db">Database stays English:</strong>
+              <span data-i18n="lang_db_body">The values stored in the database (room statuses, categories, etc.) remain in English. Translation happens only at display time, so your data stays consistent regardless of the interface language.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SHORTCUTS -->
+        <section class="section" id="shortcuts">
+          <div class="section-header">
+            <div class="section-icon indigo"><i class="fa-solid fa-keyboard"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="sc_title">Keyboard Shortcuts</h2>
+              <p class="section-sub" data-i18n="sc_sub">Work faster without the mouse</p>
+            </div>
+          </div>
+
+          <div class="card card-flush">
+            <table class="shortcut-table">
+              <thead>
+                <tr>
+                  <th data-i18n="sc_col_action">Action</th>
+                  <th data-i18n="sc_col_keys">Shortcut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td data-i18n="sc_open_search">Focus search field</td><td><kbd>/</kbd></td></tr>
+                <tr><td data-i18n="sc_close_modal">Close any open modal</td><td><kbd>Esc</kbd></td></tr>
+                <tr><td data-i18n="sc_close_modal_2">Click outside a modal</td><td><kbd>Click backdrop</kbd></td></tr>
+                <tr><td data-i18n="sc_submit_form">Submit the current form</td><td><kbd>Enter</kbd></td></tr>
+                <tr><td data-i18n="sc_print">Print the current page or receipt</td><td><kbd>Ctrl</kbd>+<kbd>P</kbd></td></tr>
+                <tr><td data-i18n="sc_tab">Move between form fields</td><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section" id="faq">
+          <div class="section-header">
+            <div class="section-icon amber"><i class="fa-solid fa-circle-question"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="faq_title">Frequently Asked Questions</h2>
+              <p class="section-sub" data-i18n="faq_sub">Answers to the most common questions</p>
+            </div>
+          </div>
+
+          <details class="faq-item"><summary class="faq-q" data-i18n="faq_q1">Is my data saved automatically?</summary><div class="faq-a" data-i18n="faq_a1">Yes. Every time you save a form (room, booking, dish, etc.), the change is sent immediately to the Cloudflare D1 database. There is no separate "Save" step or draft state.</div></details>
+          <details class="faq-item"><summary class="faq-q" data-i18n="faq_q2">Can I use the app offline?</summary><div class="faq-a" data-i18n="faq_a2">Partially. If the network is down, the header badge changes to "D1 Offline — Local Cache" and the app loads your last cached data. You can still view everything. However, changes you make while offline won't sync back to the server — they stay only in your browser.</div></details>
+          <details class="faq-item"><summary class="faq-q" data-i18n="faq_q3">Why can't I see the SQL Console?</summary><div class="faq-a" data-i18n="faq_a3">The SQL Console is restricted to the Admin role. If you're viewing as Receptionist or Guest, the menu item is hidden. Switch roles via the dropdown in the header to access it.</div></details>
+          <details class="faq-item"><summary class="faq-q" data-i18n="faq_q4">Can I undo a delete?</summary><div class="faq-a" data-i18n="faq_a4">No. Deletions are permanent. The confirmation dialog exists to prevent accidents, but once you confirm, the record is gone from the D1 database. If you've made a mistake, you'll need to re-enter the data manually.</div></details>
+          <details class="faq-item"><summary class="faq-q" data-i18n="faq_q5">How do I know if a save worked?</summary><div class="faq-a" data-i18n="faq_a5">A green toast appears in the bottom-right corner with a checkmark icon and a message like "Added Room 105". If something fails, you'll see a red toast with the error message instead.</div></details>
+          <details class="faq-item"><summary class="faq-q" data-i18n="faq_q6">Can I add a third language?</summary><div class="faq-a" data-i18n="faq_a6">Yes — this is a developer task. The app's translation dictionary lives in app.js under T.en and T.am. To add a new language (e.g. Afaan Oromoo), add a T.om key with all the same translation keys. The language button would then cycle EN → አማ → OM.</div></details>
+          <details class="faq-item"><summary class="faq-q" data-i18n="faq_q7">What happens if the internet drops mid-save?</summary><div class="faq-a" data-i18n="faq_a7">The save will fail and you'll see a red error toast. The form stays open so you can retry once the connection is restored. Nothing is half-saved — D1 transactions are atomic.</div></details>
+          <details class="faq-item"><summary class="faq-q" data-i18n="faq_q8">Who can see the financial reports?</summary><div class="faq-a" data-i18n="faq_a8">Only Admins. The Financial Reports module is completely hidden from Receptionists and Guests. In a production system this would also be enforced at the API level.</div></details>
+        </section>
+
+        <!-- TROUBLESHOOTING -->
+        <section class="section" id="troubleshooting">
+          <div class="section-header">
+            <div class="section-icon rose"><i class="fa-solid fa-wrench"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="ts_title">Common Issues</h2>
+              <p class="section-sub" data-i18n="ts_sub">Quick fixes for frequent problems</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-wifi"></i> <span data-i18n="ts_offline">Header says "D1 Offline"</span></div>
+            <div class="card-body" data-i18n="ts_offline_body">Cause: The Cloudflare Worker API is unreachable. Fix: Check your internet connection. Try clicking the refresh button in the header. If it persists, the API might be temporarily down — wait a few minutes and try again.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="ts_error">Red error toast after saving</span></div>
+            <div class="card-body" data-i18n="ts_error_body">Cause: The database rejected the save — usually a duplicate value (room number, email) or a missing required field. Fix: Read the error message in the toast. Common issues: room numbers must be unique; email addresses must be unique; guest names, phone numbers, and dates are required for bookings.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-mobile-screen"></i> <span data-i18n="ts_mobile">Sidebar won't open on mobile</span></div>
+            <div class="card-body" data-i18n="ts_mobile_body">Fix: Tap the menu icon in the top-left corner of the header. If it still won't open, refresh the page. On very small screens, the sidebar slides in from the left as an overlay — tap outside it to close.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-chart-line"></i> <span data-i18n="ts_charts">Charts are blank</span></div>
+            <div class="card-body" data-i18n="ts_charts_body">Cause: Usually a browser issue — Chart.js failed to load from the CDN. Fix: Hard-refresh the page (Ctrl+Shift+R). If it persists, check that your network isn't blocking cdn.jsdelivr.net.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-lock"></i> <span data-i18n="ts_403">"D1 must be online" message</span></div>
+            <div class="card-body" data-i18n="ts_403_body">Cause: You tried to run a SQL query or reset the schema while the app was in offline mode. Fix: Reconnect to the internet and refresh. Only online mode can execute raw SQL or reset the schema.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-palette"></i> <span data-i18n="ts_theme">Theme won't stick</span></div>
+            <div class="card-body" data-i18n="ts_theme_body">Cause: Your browser may be blocking localStorage (private browsing mode or strict cookie settings). Fix: Allow site data for the app's domain in your browser settings, or exit private browsing.</div>
+          </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="section" id="contact">
+          <div class="section-header">
+            <div class="section-icon amber"><i class="fa-solid fa-headset"></i></div>
+            <div>
+              <h2 class="section-title" data-i18n="contact_title">Contact Support</h2>
+              <p class="section-sub" data-i18n="contact_sub">Still stuck? Reach out</p>
+            </div>
+          </div>
+
+          <div class="contact-grid">
+            <a href="tel:+251471112233" class="contact-card">
+              <div class="contact-icon amber"><i class="fa-solid fa-phone"></i></div>
+              <div class="contact-info">
+                <div class="contact-label" data-i18n="contact_phone_label">Front Desk Phone</div>
+                <div class="contact-value">+251 47 111 2233</div>
+                <div class="contact-desc" data-i18n="contact_phone_desc">Available 24 / 7</div>
+              </div>
+            </a>
+            <a href="mailto:support@asniguesthouse.com" class="contact-card">
+              <div class="contact-icon sky"><i class="fa-solid fa-envelope"></i></div>
+              <div class="contact-info">
+                <div class="contact-label" data-i18n="contact_email_label">Support Email</div>
+                <div class="contact-value">support@asniguesthouse.com</div>
+                <div class="contact-desc" data-i18n="contact_email_desc">Response within 24 hours</div>
+              </div>
+            </a>
+            <div class="contact-card contact-card-static">
+              <div class="contact-icon emerald"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="contact-info">
+                <div class="contact-label" data-i18n="contact_address_label">Address</div>
+                <div class="contact-value">Ferenj Arada, Jimma, Ethiopia</div>
+                <div class="contact-desc" data-i18n="contact_address_desc">Walk-ins welcome</div>
+              </div>
+            </div>
+            <div class="contact-card contact-card-static">
+              <div class="contact-icon rose"><i class="fa-solid fa-clock"></i></div>
+              <div class="contact-info">
+                <div class="contact-label" data-i18n="contact_hours_label">Reception Hours</div>
+                <div class="contact-value" data-i18n="contact_hours_value">24 hours · 7 days</div>
+                <div class="contact-desc" data-i18n="contact_hours_desc">Always open</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout success mt-1">
+            <i class="fa-solid fa-circle-check"></i>
+            <div>
+              <strong data-i18n="contact_thanks">Thank you for using Asni Guest House.</strong>
+              <span data-i18n="contact_thanks_body">We hope this guide helps you get the most out of the system. For technical issues specific to the software, contact the developer directly.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- NO RESULTS -->
+        <div class="no-results" id="noResults" hidden>
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <h3 data-i18n="no_results_title">No matching results</h3>
+          <p data-i18n="no_results_body">Try a different search term, or browse the sidebar categories.</p>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="help-footer">
+          <div>
+            <strong>Asni Guest House</strong> &middot;
+            <span data-i18n="footer_version">Help Center v3.0</span> &middot;
+            <a href="index.html" data-i18n="footer_back">Return to app</a>
+          </div>
+        </footer>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============================================================
+     Help modules — order matters
+     ============================================================ -->
+<script src="modules/help/help-keys.js"></script>
+<script src="modules/help/help-i18n.js"></script>
+<script src="modules/help/help-theme.js"></script>
+<script src="modules/help/help-search.js"></script>
+<script src="modules/help/help-scroll.js"></script>
+<script src="modules/help/help-menu.js"></script>
+<script src="modules/help/help-app.js"></script>
+</body>
+</html>
