@@ -375,16 +375,21 @@ window.AsniApp = window.AsniApp || {};
 
   /* ---------------- All ---------------- */
   function renderAll() {
-    renderDashboard();
-    renderRooms();
-    renderUsers();
-    renderBookings();
-    renderRestaurant();
-    renderTables();
-    renderReports();
-    renderBanners();
-    renderSchema();
+  renderDashboard();
+  renderRooms();
+  renderUsers();
+  renderBookings();
+  renderRestaurant();
+  renderTables();
+  renderReports();
+  renderBanners();
+  renderSchema();
+
+  // Re-apply role gating to anything just rendered
+  if (App.Router?.currentRole) {
+    App.Router.setRole(App.Router.currentRole, /* silent */ true);
   }
+}
   
   /* ---------------- Language change subscription ---------------- */
 document.addEventListener('asni:lang-changed', () => {
