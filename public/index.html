@@ -525,6 +525,11 @@ body.role-guest .charts-grid {
   }
   .app-footer .toolbar::-webkit-scrollbar { display: none; }
 }
+  /* Guests don't need an Actions column anywhere */
+body.role-guest .data-table th:last-child,
+body.role-guest .data-table td:last-child {
+  display: none;
+}
 </style>
 </head>
 <body class="app-shell role-admin is-booting">
