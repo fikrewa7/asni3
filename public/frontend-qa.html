@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frontend Q&amp;A — University Defense Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f172a;
+    --bg-elev: #1e293b;
+    --panel: rgba(30, 41, 59, 0.7);
+    --panel-soft: rgba(51, 65, 85, 0.4);
+    --border: rgba(148, 163, 184, 0.15);
+    --text: #e2e8f0;
+    --text-strong: #ffffff;
+    --text-mid: #cbd5e1;
+    --muted: #94a3b8;
+
+    --amber: #f59e0b;
+    --emerald: #10b981;
+    --sky: #0ea5e9;
+    --rose: #f43f5e;
+    --purple: #a855f7;
+    --teal: #14b8a6;
+    --indigo: #6366f1;
+  }
+
+  html, body { height: 100%; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+    overflow: hidden;
+  }
+
+  .shell {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  /* Header */
+  .app-header {
+    flex-shrink: 0;
+    padding: 0.9rem 1.5rem;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .brand-block { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
+  .brand-mark {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6366f1, #0ea5e9 55%, #10b981);
+    display: grid; place-items: center;
+    color: #fff; font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .brand-text h1 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-strong);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .brand-text p {
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .header-meta .pill {
+    padding: 0.25rem 0.6rem;
+    background: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    border-radius: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.65rem;
+  }
+
+  /* Tab bar */
+  .tab-bar {
+    flex-shrink: 0;
+    background: var(--bg-elev);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    display: flex;
+    gap: 0.15rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+  .tab-bar::-webkit-scrollbar { height: 4px; }
+  .tab-bar::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 4px; }
+
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 0.8rem 0.9rem;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+  }
+  .tab-btn i { font-size: 0.7rem; opacity: 0.7; }
+  .tab-btn:hover { color: var(--text-mid); }
+  .tab-btn.active {
+    color: var(--indigo);
+    border-bottom-color: var(--indigo);
+  }
+  .tab-btn.active i { opacity: 1; }
+
+  /* Main */
+  .app-main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 1.5rem 4rem;
+    scrollbar-width: thin;
+  }
+  .app-main::-webkit-scrollbar { width: 8px; }
+  .app-main::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.25); border-radius: 8px; }
+  .app-main::-webkit-scrollbar-track { background: transparent; }
+
+  .panel-wrap { max-width: 960px; margin: 0 auto; }
+
+  .panel { display: none; }
+  .panel.active {
+    display: block;
+    animation: fadeIn 0.2s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel-head {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .panel-head .eyebrow {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--indigo);
+    margin-bottom: 0.3rem;
+  }
+  .panel-head h2 {
+    font-size: 1.55rem;
+    font-weight: 900;
+    color: var(--text-strong);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .panel-head p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 0.35rem;
+    max-width: 65ch;
+  }
+
+  /* Question list */
+  .q-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .q-item {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--panel-soft);
+    border-radius: 10px;
+    padding: 0.85rem 1.1rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .q-item:hover {
+    background: rgba(30, 41, 59, 0.9);
+    border-left-color: var(--indigo);
+  }
+  .q-item.hard { border-left-color: var(--rose); }
+  .q-item.common { border-left-color: var(--amber); }
+
+  .q-num {
+    flex-shrink: 0;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 6px;
+    background: var(--panel-soft);
+    color: var(--muted);
+    display: grid;
+    place-items: center;
+    font-size: 0.7rem;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 0.1rem;
+  }
+  .q-item.hard .q-num {
+    background: rgba(244, 63, 94, 0.15);
+    color: #fda4af;
+  }
+  .q-item.common .q-num {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fcd34d;
+  }
+
+  .q-body { flex: 1; min-width: 0; }
+  .q-body .q-text {
+    color: var(--text-strong);
+    font-weight: 500;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .q-body .q-text code {
+    background: rgba(6, 10, 18, 0.6);
+    border: 1px solid var(--border);
+    padding: 0.05rem 0.35rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82em;
+    color: #a5f3fc;
+  }
+  .q-body .q-hint {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 0.35rem;
+    line-height: 1.55;
+    padding-left: 0.1rem;
+  }
+  .q-body .q-hint strong { color: var(--text-mid); font-weight: 600; }
+  .q-body .q-hint em {
+    color: var(--amber);
+    font-style: normal;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--panel-soft);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 1.25rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+  .legend-dot.common { background: var(--amber); }
+  .legend-dot.hard { background: var(--rose); }
+  .legend-dot.normal { background: var(--panel-soft); border: 1px solid var(--border); }
+
+  /* Callout */
+  .callout {
+    background: rgba(99, 102, 241, 0.1);
+    border-left: 3px solid var(--indigo);
+    border-radius: 8px;
+    padding: 0.9rem 1.1rem;
+    font-size: 0.83rem;
+    color: #c7d2fe;
+    margin: 1.25rem 0;
+  }
+  .callout strong { color: #e0e7ff; display: block; margin-bottom: 0.3rem; }
+  .callout.warn {
+    background: rgba(244, 63, 94, 0.1);
+    border-left-color: var(--rose);
+    color: #fda4af;
+  }
+  .callout.warn strong { color: #fecdd3; }
+  .callout.good {
+    background: rgba(16, 185, 129, 0.1);
+    border-left-color: var(--emerald);
+    color: #6ee7b7;
+  }
+  .callout.good strong { color: #a7f3d0; }
+
+  /* Sub-heading */
+  .sub-head {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--indigo);
+    margin: 1.75rem 0 0.6rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .sub-head:first-of-type { margin-top: 0.5rem; padding-top: 0; border-top: none; }
+
+  /* Strategy section */
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  .strategy-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+  }
+  .strategy-card .s-icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: grid; place-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+  }
+  .strategy-card .s-icon.a { background: rgba(245, 158, 11, 0.15); color: #fcd34d; }
+  .strategy-card .s-icon.b { background: rgba(14, 165, 233, 0.15); color: #7dd3fc; }
+  .strategy-card .s-icon.c { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; }
+  .strategy-card h4 {
+    font-size: 0.85rem;
+    color: var(--text-strong);
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .strategy-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.55; }
+  .strategy-card p em { color: var(--amber); font-style: normal; }
+
+  /* Footer */
+  .app-footer {
+    flex-shrink: 0;
+    padding: 0.7rem 1.5rem;
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 48px;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .footer-hint {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+    flex-wrap: wrap;
+  }
+  .hint-group { display: inline-flex; align-items: center; gap: 0.3rem; }
+  .hint-group kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 0.35rem;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    line-height: 1;
+  }
+  .hint-label { margin-left: 0.15rem; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.02em; }
+  .hint-sep { width: 1px; height: 14px; background: var(--border); }
+
+  /* Footer toolbar */
+  .toolbar {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    background: var(--panel-soft);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .tool-btn {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 8px;
+    color: var(--tone, var(--muted));
+    font-size: 0.82rem;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+    transition: color 0.15s, background 0.15s, border-color 0.15s, transform 0.1s;
+  }
+  .tool-btn:hover {
+    background: color-mix(in srgb, var(--tone, var(--indigo)) 16%, transparent);
+    border-color: color-mix(in srgb, var(--tone, var(--indigo)) 45%, transparent);
+    transform: translateY(-1px);
+  }
+  .tool-btn:active { transform: translateY(0); }
+  .tool-btn:focus-visible {
+    outline: 2px solid var(--tone, var(--indigo));
+    outline-offset: 2px;
+  }
+  .tool-btn[data-tone] { background: color-mix(in srgb, var(--tone) 6%, transparent); }
+
+  .tool-btn[data-tone="sky"]     { --tone: #0ea5e9; }
+  .tool-btn[data-tone="purple"]  { --tone: #a855f7; }
+  .tool-btn[data-tone="amber"]   { --tone: #f59e0b; }
+  .tool-btn[data-tone="emerald"] { --tone: #10b981; }
+  .tool-btn[data-tone="teal"]    { --tone: #14b8a6; }
+  .tool-btn[data-tone="slate"]   { --tone: #94a3b8; }
+  .tool-btn[data-tone="rose"]    { --tone: #f43f5e; }
+  .tool-btn[data-tone="indigo"]  { --tone: #6366f1; }
+
+  .tool-btn-text {
+    display: none;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 1100px) {
+    .tool-btn { width: auto; padding: 0 0.7rem; }
+    .tool-btn-text { display: inline; }
+  }
+  @media (min-width: 1400px) {
+    .tool-btn { padding: 0 0.85rem; gap: 0.55rem; }
+  }
+
+  /* Overflow safety */
+  .panel, .panel-wrap, .app-main, .q-item, .q-body { min-width: 0; }
+
+  @media (max-width: 640px) {
+    .app-header { padding: 0.7rem 1rem; }
+    .tab-bar { padding: 0 1rem; }
+    .app-main { padding: 1.25rem 1rem 3rem; }
+    .panel-head h2 { font-size: 1.2rem; }
+    .brand-text p { display: none; }
+    .header-meta { display: none; }
+    .app-footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.7rem 1rem;
+      font-size: 0.65rem;
+    }
+    .footer-hint { gap: 0.75rem; }
+    .hint-sep { display: none; }
+    .toolbar { align-self: flex-end; }
+  }
+
+  @media print {
+    body { overflow: visible; background: #fff; color: #000; height: auto; }
+    .shell { height: auto; display: block; }
+    .app-header, .app-footer, .tab-bar { display: none; }
+    .app-main { overflow: visible; padding: 0; height: auto; }
+    .panel { display: block !important; page-break-after: always; }
+    .panel.active { animation: none; }
+    .q-item { background: #fff; border: 1px solid #ccc; break-inside: avoid; }
+    .q-body .q-text { color: #000; }
+    .q-body .q-hint { color: #444; }
+    .q-body .q-text code { background: #f1f5f9; color: #000; }
+    .strategy-card { background: #fff; border: 1px solid #ccc; }
+    .callout { background: #f1f5f9; color: #000; border-left-color: #666; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <header class="app-header">
+    <div class="brand-block">
+      <div class="brand-mark"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div class="brand-text">
+        <h1>Frontend Development — Q&amp;A</h1>
+        <p>University defense preparation — general topics</p>
+      </div>
+    </div>
+    <div class="header-meta">
+      <span class="pill">Press 1–9, 0</span>
+      <span class="pill">← → navigate</span>
+    </div>
+  </header>
+
+  <nav class="tab-bar" role="tablist">
+    <button class="tab-btn active" data-tab="html" role="tab"><i class="fa-solid fa-code"></i> HTML</button>
+    <button class="tab-btn" data-tab="css" role="tab"><i class="fa-solid fa-palette"></i> CSS</button>
+    <button class="tab-btn" data-tab="responsive" role="tab"><i class="fa-solid fa-mobile-screen"></i> Responsive</button>
+    <button class="tab-btn" data-tab="js" role="tab"><i class="fa-brands fa-js"></i> JavaScript</button>
+    <button class="tab-btn" data-tab="dom" role="tab"><i class="fa-solid fa-sitemap"></i> DOM</button>
+    <button class="tab-btn" data-tab="arch" role="tab"><i class="fa-solid fa-layer-group"></i> CSS Architecture</button>
+    <button class="tab-btn" data-tab="a11y" role="tab"><i class="fa-solid fa-universal-access"></i> Accessibility</button>
+    <button class="tab-btn" data-tab="perf" role="tab"><i class="fa-solid fa-gauge-high"></i> Performance</button>
+    <button class="tab-btn" data-tab="security" role="tab"><i class="fa-solid fa-shield-halved"></i> Security</button>
+    <button class="tab-btn" data-tab="browser" role="tab"><i class="fa-solid fa-globe"></i> Browser</button>
+    <button class="tab-btn" data-tab="tooling" role="tab"><i class="fa-solid fa-screwdriver-wrench"></i> Tooling</button>
+    <button class="tab-btn" data-tab="frameworks" role="tab"><i class="fa-solid fa-cubes"></i> Frameworks</button>
+    <button class="tab-btn" data-tab="ux" role="tab"><i class="fa-solid fa-wand-magic-sparkles"></i> Design &amp; UX</button>
+    <button class="tab-btn" data-tab="process" role="tab"><i class="fa-solid fa-comments"></i> Process</button>
+    <button class="tab-btn" data-tab="strategy" role="tab"><i class="fa-solid fa-chess"></i> Strategy</button>
+  </nav>
+
+  <main class="app-main">
+    <div class="panel-wrap">
+
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot common"></span> Very common question</div>
+        <div class="legend-item"><span class="legend-dot hard"></span> Advanced / tricky</div>
+        <div class="legend-item"><span class="legend-dot normal"></span> Standard</div>
+      </div>
+
+      <!-- ============ 1. HTML ============ -->
+      <section class="panel active" data-panel="html">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 01</div>
+          <h2>HTML &amp; Semantics</h2>
+          <p>Structure, meaning, and why semantic markup matters.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item common">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">Why use <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;aside&gt;</code> instead of generic <code>&lt;div&gt;</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> Semantics — screen readers, SEO, maintainability, landmark navigation. <code>&lt;div&gt;</code> carries no meaning.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">Difference between <code>&lt;b&gt;</code> and <code>&lt;strong&gt;</code>, <code>&lt;i&gt;</code> and <code>&lt;em&gt;</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>&lt;strong&gt;</code> and <code>&lt;em&gt;</code> carry semantic emphasis — screen readers change their tone. <code>&lt;b&gt;</code> and <code>&lt;i&gt;</code> are purely visual.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">When would you use a <code>&lt;table&gt;</code> for layout?</div>
+              <div class="q-hint"><strong>Hint:</strong> Never. That was a 1990s practice. Tables are for tabular data only. Modern layout uses Flexbox and Grid.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">What does <code>&lt;!DOCTYPE html&gt;</code> do? What happens if you omit it?</div>
+              <div class="q-hint"><strong>Hint:</strong> Triggers standards mode. Omitting it puts the browser in quirks mode, where box model and other rules follow legacy behavior.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">Difference between <code>&lt;script&gt;</code>, <code>&lt;script async&gt;</code>, and <code>&lt;script defer&gt;</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> Plain blocks parsing. <code>async</code> downloads in parallel and runs as soon as ready (order not guaranteed). <code>defer</code> downloads in parallel but runs in order after HTML parse.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">What is the DOM? How is it built?</div>
+              <div class="q-hint"><strong>Hint:</strong> Tree of nodes representing the page. Built by the browser as HTML is parsed. JavaScript manipulates it to change the UI.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">07</div>
+            <div class="q-body">
+              <div class="q-text">Why does <code>&lt;label for="x"&gt;</code> matter?</div>
+              <div class="q-hint"><strong>Hint:</strong> Accessibility — clicking the label focuses the input. Screen readers announce the association. Also improves hit targets on touch screens.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">08</div>
+            <div class="q-body">
+              <div class="q-text">What is the difference between block, inline, and inline-block elements?</div>
+              <div class="q-hint"><strong>Hint:</strong> Block takes full width, starts on a new line. Inline flows with text, ignores width/height. Inline-block flows with text but accepts width/height.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">09</div>
+            <div class="q-body">
+              <div class="q-text">Why is the HTML structure important for SEO?</div>
+              <div class="q-hint"><strong>Hint:</strong> Search engines parse headings, landmarks, and semantic tags to understand content hierarchy. Also affects readability for assistive tech.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 2. CSS ============ -->
+      <section class="panel" data-panel="css">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 02</div>
+          <h2>CSS Fundamentals</h2>
+          <p>Specificity, the box model, positioning, and layout systems.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item common">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">How is specificity calculated?</div>
+              <div class="q-hint"><strong>Hint:</strong> Three buckets: inline styles (1000), IDs (100), classes/attributes/pseudo-classes (10), elements/pseudo-elements (1). Highest wins; ties broken by order.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">Difference between <code>em</code>, <code>rem</code>, <code>px</code>, <code>%</code>, <code>vw</code>, <code>vh</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>em</code> = parent font size. <code>rem</code> = root font size. <code>px</code> = absolute. <code>%</code> = parent's dimension. <code>vw</code>/<code>vh</code> = viewport percentage.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">Box model — <code>content-box</code> vs <code>border-box</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>content-box</code> (default): width excludes padding and border. <code>border-box</code>: width includes them. Almost every project sets <code>* { box-sizing: border-box }</code>.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">Why does <code>margin: 0 auto</code> center a block element? When does it fail?</div>
+              <div class="q-hint"><strong>Hint:</strong> It distributes free horizontal space equally. Fails if the element has no explicit width, or is inline, or is absolutely positioned with both left and right set.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">Difference between <code>display: none</code>, <code>visibility: hidden</code>, and <code>opacity: 0</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>display: none</code> removes from layout. <code>visibility: hidden</code> keeps the space, hides the paint. <code>opacity: 0</code> keeps the space and the element still receives clicks.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">What is <code>position: absolute</code> positioned relative to?</div>
+              <div class="q-hint"><strong>Hint:</strong> The nearest ancestor with <code>position</code> other than <code>static</code>. If none exists, the initial containing block (viewport).</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">07</div>
+            <div class="q-body">
+              <div class="q-text">What is <code>z-index</code> and why does it sometimes not work?</div>
+              <div class="q-hint"><strong>Hint:</strong> Controls stacking order. Only works on positioned elements. Broken by stacking contexts — a child's <code>z-index</code> only competes within its parent's context.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">08</div>
+            <div class="q-body">
+              <div class="q-text">Difference between Flexbox and Grid? When to use which?</div>
+              <div class="q-hint"><strong>Hint:</strong> Flexbox for one-dimensional layouts (row <em>or</em> column). Grid for two-dimensional (rows <em>and</em> columns). Grid for page layout, Flex for component alignment.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">09</div>
+            <div class="q-body">
+              <div class="q-text">What is a CSS reset/normalize and why do people use one?</div>
+              <div class="q-hint"><strong>Hint:</strong> Browsers apply different default styles. A reset removes them; normalize makes them consistent. Ensures a predictable baseline across browsers.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">10</div>
+            <div class="q-body">
+              <div class="q-text">Explain the difference between reflow and repaint.</div>
+              <div class="q-hint"><strong>Hint:</strong> Reflow recalculates layout (expensive). Repaint only redraws pixels (cheaper). Changing width causes reflow; changing color causes repaint.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 3. RESPONSIVE ============ -->
+      <section class="panel" data-panel="responsive">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 03</div>
+          <h2>Responsive Design</h2>
+          <p>Media queries, viewport, and mobile-first thinking.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item common">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">Difference between mobile-first and desktop-first?</div>
+              <div class="q-hint"><strong>Hint:</strong> Mobile-first writes base styles for small screens and adds complexity upward with <code>min-width</code> media queries. Desktop-first is the reverse with <code>max-width</code>.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">How do media queries work? Give an example.</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>@media (min-width: 768px) { .nav { display: flex; } }</code> — applies the rule only when the viewport is at least 768px wide.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">What does <code>&lt;meta name="viewport" content="width=device-width"&gt;</code> do?</div>
+              <div class="q-hint"><strong>Hint:</strong> Tells mobile browsers to render at device width instead of the default ~980px zoomed-out desktop layout. Without it, responsive design breaks on phones.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">What are common breakpoints and why those numbers?</div>
+              <div class="q-hint"><strong>Hint:</strong> 480 (small phone), 640 (large phone), 768 (tablet portrait), 1024 (tablet landscape / small laptop), 1280+ (desktop). Based on common device widths, not fixed rules.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">Difference between responsive and adaptive design?</div>
+              <div class="q-hint"><strong>Hint:</strong> Responsive fluidly adjusts to any viewport. Adaptive jumps between fixed layouts at set breakpoints. Responsive is generally preferred.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">How do you handle images for different screen sizes?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>&lt;picture&gt;</code> with <code>srcset</code> and <code>sizes</code> attributes. Serve smaller files to phones. Use modern formats (WebP, AVIF) and lazy loading.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">07</div>
+            <div class="q-body">
+              <div class="q-text">What is the difference between <code>em</code> and <code>rem</code> in a media query context?</div>
+              <div class="q-hint"><strong>Hint:</strong> In media queries, <code>em</code> is relative to the browser's base font size (usually 16px), not the element's font. <code>rem</code> in media queries is also 16px-based. Both are more accessible than <code>px</code> because they scale with user settings.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 4. JAVASCRIPT ============ -->
+      <section class="panel" data-panel="js">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 04</div>
+          <h2>JavaScript Fundamentals</h2>
+          <p>Scope, closures, async, and the parts that trip everyone up.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item common">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text"><code>var</code> vs <code>let</code> vs <code>const</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>var</code> is function-scoped, hoisted with <code>undefined</code>. <code>let</code> and <code>const</code> are block-scoped, hoisted but not initialized (temporal dead zone). <code>const</code> prevents reassignment.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">What is hoisting?</div>
+              <div class="q-hint"><strong>Hint:</strong> Declarations are moved to the top of their scope before execution. <code>var</code> declarations are hoisted as <code>undefined</code>. Function declarations are hoisted fully. <code>let</code>/<code>const</code> are hoisted but not accessible until initialized.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">Explain closures with an example.</div>
+              <div class="q-hint"><strong>Hint:</strong> A function that remembers variables from its enclosing scope even after that scope has returned. <em>Example:</em> a counter function that increments a variable defined outside it.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text"><code>==</code> vs <code>===</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>==</code> coerces types (<code>'1' == 1</code> is true). <code>===</code> compares without coercion (<code>'1' === 1</code> is false). Always use <code>===</code> unless you have a specific reason.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">What is <code>this</code> and how does it change?</div>
+              <div class="q-hint"><strong>Hint:</strong> Depends on call site. Method call → the object. Standalone function → <code>undefined</code> (strict) or global (sloppy). Arrow functions → inherited from enclosing scope. <code>new</code> → the new instance.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">Arrow functions — how do they differ from regular functions?</div>
+              <div class="q-hint"><strong>Hint:</strong> No own <code>this</code> (inherited lexically). No <code>arguments</code> object. Can't be used with <code>new</code>. Concise syntax.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">07</div>
+            <div class="q-body">
+              <div class="q-text"><code>map</code>, <code>filter</code>, <code>reduce</code> — when do you use each?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>map</code> transforms each element. <code>filter</code> keeps matching elements. <code>reduce</code> accumulates into a single value. All return new arrays (except reduce).</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">08</div>
+            <div class="q-body">
+              <div class="q-text">What is a Promise? What is <code>async</code>/<code>await</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> A Promise represents a value that will exist later (resolve or reject). <code>async</code>/<code>await</code> is syntactic sugar over Promises — makes asynchronous code read like synchronous.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">09</div>
+            <div class="q-body">
+              <div class="q-text">Difference between <code>null</code> and <code>undefined</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>undefined</code> is the default for unassigned variables. <code>null</code> is an intentional "no value." Both are falsy. <code>typeof null === 'object'</code> is a historical bug.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">10</div>
+            <div class="q-body">
+              <div class="q-text">What is event bubbling? Event delegation?</div>
+              <div class="q-hint"><strong>Hint:</strong> Events bubble from target up through ancestors. Delegation: attach one listener to a parent instead of many to children — catches all matching descendants.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">11</div>
+            <div class="q-body">
+              <div class="q-text">Difference between <code>addEventListener</code> and <code>onclick</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>onclick</code> allows only one handler. <code>addEventListener</code> allows multiple, supports options (capture, once, passive), and can be removed with <code>removeEventListener</code>.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">12</div>
+            <div class="q-body">
+              <div class="q-text">What is a higher-order function?</div>
+              <div class="q-hint"><strong>Hint:</strong> A function that takes a function as an argument, returns a function, or both. <code>map</code>, <code>filter</code>, <code>reduce</code> are all higher-order.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">13</div>
+            <div class="q-body">
+              <div class="q-text">What is the event loop?</div>
+              <div class="q live-hint"><strong>Hint:</strong> JavaScript is single-threaded. The event loop pulls tasks from a queue and runs them when the call stack is empty. Microtasks (Promises) run before macrotasks (setTimeout).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 5. DOM ============ -->
+      <section class="panel" data-panel="dom">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 05</div>
+          <h2>DOM Manipulation</h2>
+          <p>Selecting, updating, and event handling.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item common">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text"><code>innerHTML</code> vs <code>textContent</code> vs <code>createElement</code> — trade-offs?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>innerHTML</code> parses HTML — fast to write but an XSS risk. <code>textContent</code> is safe but no markup. <code>createElement</code> + <code>appendChild</code> is verbose but safest.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">What is event delegation and why use it?</div>
+              <div class="q-hint"><strong>Hint:</strong> Attach one listener to a parent for many children. Fewer listeners, works for dynamically added elements. Use <code>event.target.closest()</code> to find the actual target.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">How do you prevent default form submission?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>event.preventDefault()</code> inside the submit handler. Otherwise the browser reloads the page.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text"><code>querySelector</code> vs <code>querySelectorAll</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>querySelector</code> returns the first match or <code>null</code>. <code>querySelectorAll</code> returns a static NodeList (not — unlike <code>getElementsByClassName</code>).</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">When would you use <code>dataset</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> Reading/writing <code>data-*</code> attributes. <code>el.dataset.userId</code> maps to <code>data-user-id</code>. Useful for storing state on DOM nodes.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">How do you add/remove classes dynamically?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>el.classList.add('x')</code>, <code>.remove('x')</code>, <code>.toggle('x')</code>, <code>.contains('x')</code>. Cleaner than manipulating <code>className</code> strings.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">07</div>
+            <div class="q-body">
+              <div class="q-text">What's the difference between a live and a static NodeList?</div>
+              <div class="q-hint"><strong>Hint:</strong> Live updates automatically when the DOM changes (e.g. <code>getElementsByClassName</code>). Static is a snapshot (<code>querySelectorAll</code>). Live lists cause surprising bugs.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 6. CSS ARCHITECTURE ============ -->
+      <section class="panel" data-panel="arch">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 06</div>
+          <h2>CSS Architecture</h2>
+          <p>Methodologies, tokens, and organizing styles at scale.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item common">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">What is BEM? Why use it?</div>
+              <div class="q-hint"><strong>Hint:</strong> Block-Element-Modifier naming: <code>.card__title--large</code>. Reduces naming collisions, makes the HTML self-documenting, avoids specificity wars.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">What are CSS custom properties? How do they differ from Sass variables?</div>
+              <div class="q-hint"><strong>Hint:</strong> Custom properties (<code>--x</code>) are live — they change at runtime and cascade. Sass variables are compile-time constants that disappear in the output.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">Utility-first CSS (Tailwind) vs component CSS — trade-offs?</div>
+              <div class="q-hint"><strong>Hint:</strong> Utility-first: fast iteration, no naming, small learning curve once you know the classes, but HTML gets noisy. Component CSS: cleaner markup, but naming fatigue and dead-code risk.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">How do you organize CSS in a large project?</div>
+              <div class="q-hint"><strong>Hint:</strong> Layers or ITCSS: tokens → base → layout → components → utilities. Or feature folders. The key is a predictable structure, not a specific one.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">What problems does a preprocessor (Sass/Less) solve?</div>
+              <div class="q-hint"><strong>Hint:</strong> Nesting (with caution), variables, mixins, functions, partials. Modern CSS covers most of this now with custom properties and nesting.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">What is the cascade, and how does it interact with specificity?</div>
+              <div class="q-hint"><strong>Hint:</strong> The cascade resolves conflicts in order: source order, specificity, importance (<code>!important</code>). Origin and inheritance also matter. Specificity is one input into the cascade, not the whole story.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 7. ACCESSIBILITY ============ -->
+      <section class="panel" data-panel="a11y">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 07</div>
+          <h2>Accessibility</h2>
+          <p>Making the web usable by everyone.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item common">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">What is WCAG? Name some guidelines.</div>
+              <div class="q-hint"><strong>Hint:</strong> Web Content Accessibility Guidelines. Four principles: Perceivable, Operable, Understandable, Robust (POUR). Three levels: A, AA, AAA.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">What's the minimum contrast ratio for text?</div>
+              <div class="q-hint"><strong>Hint:</strong> WCAG AA: 4.5:1 for normal text, 3:1 for large text (18pt+ or 14pt bold). AAA is 7:1.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">How do screen readers interact with a page?</div>
+              <div class="q-hint"><strong>Hint:</strong> They parse the accessibility tree, announce landmarks, headings, and interactive elements. Semantic HTML builds this tree automatically. ARIA can override or add to it.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">What is ARIA? When do you use <code>aria-label</code>, <code>role</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> Accessible Rich Internet Applications — attributes that describe elements for assistive tech. First rule of ARIA: don't use ARIA if a native element does the job. <code>aria-label</code> labels icon-only buttons; <code>role</code> describes a custom widget.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">Can you build an accessible modal? What do you need?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>role="dialog"</code> + <code>aria-modal="true"</code>. Focus trap inside. Focus the first interactive element on open. Return focus on close. Escape closes. Backdrop click closes. Underlying content <code>aria-hidden</code>.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">Why is color alone a bad way to convey information?</div>
+              <div class="q-hint"><strong>Hint:</strong> Color-blind users miss it. Add text, icons, or patterns. Example: red error text should also say "Error:" or show an icon.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">07</div>
+            <div class="q-body">
+              <div class="q-text">What is keyboard navigation and why does it matter?</div>
+              <div class="q-hint"><strong>Hint:</strong> Users should reach every interactive element with Tab, activate with Enter/Space, escape modals with Escape. Don't remove focus outlines — restyle them instead.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 8. PERFORMANCE ============ -->
+      <section class="panel" data-panel="perf">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 08</div>
+          <h2>Performance</h2>
+          <p>Loading, rendering, and the metrics that matter.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item common">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">What causes slow page loads?</div>
+              <div class="q-hint"><strong>Hint:</strong> Large JS bundles, blocking resources, unoptimized images, too many network requests, slow server response, no caching, render-blocking CSS.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">What are Core Web Vitals?</div>
+              <div class="q-hint"><strong>Hint:</strong> LCP (Largest Contentful Paint), INP (Interaction to Next Paint), CLS (Cumulative Layout Shift). Google uses them as ranking signals.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">What's the critical rendering path?</div>
+              <div class="q-hint"><strong>Hint:</strong> The sequence from receiving HTML to rendering pixels: parse HTML → build DOM → fetch CSS → build CSSOM → combine into render tree → layout → paint. Minimizing blocking steps speeds up first paint.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">Why is CSS blocking but <code>&lt;script defer&gt;</code> isn't?</div>
+              <div class="q-hint"><strong>Hint:</strong> CSS blocks rendering because unstyled content would flash. Deferred scripts run after HTML parse, so they don't block the initial paint.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">How do you optimize images?</div>
+              <div class="q-hint"><strong>Hint:</strong> Modern formats (WebP, AVIF). Correct dimensions — never downscale in CSS. <code>srcset</code> and <code>sizes</code> for responsive. <code>loading="lazy"</code> for below-the-fold. Compress aggressively.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">What is lazy loading?</div>
+              <div class="q-hint"><strong>Hint:</strong> Deferring loading of resources until they're needed. Native: <code>loading="lazy"</code> on images/iframes. JS: IntersectionObserver for dynamic imports.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">07</div>
+            <div class="q-body">
+              <div class="q-text">Difference between reflow and repaint?</div>
+              <div class="q-hint"><strong>Hint:</strong> Reflow recalculates layout (expensive). Repaint redraws pixels (cheaper). Animating properties like <code>transform</code> and <code>opacity</code> avoids reflow — that's why they're the recommended animation properties.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">08</div>
+            <div class="q-body">
+              <div class="q-text">When would you use <code>requestAnimationFrame</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> For smooth animations synced with the browser's paint cycle. Preferred over <code>setTimeout</code> for anything visual — it stops when the tab is backgrounded and runs at the monitor's refresh rate.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">09</div>
+            <div class="q-body">
+              <div class="q-text">What is a CDN and why use one?</div>
+              <div class="q-hint"><strong>Hint:</strong> Content Delivery Network — geographically distributed servers that cache your assets near users. Reduces latency and offloads origin traffic.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 9. SECURITY ============ -->
+      <section class="panel" data-panel="security">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 09</div>
+          <h2>Security (frontend-side)</h2>
+          <p>What the browser can and cannot protect you from.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item common">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">What is XSS? How do you prevent it?</div>
+              <div class="q-hint"><strong>Hint:</strong> Cross-Site Scripting — attacker injects executable code via user input. Prevent by escaping output, using <code>textContent</code> instead of <code>innerHTML</code>, sanitizing with libraries, and setting Content Security Policy.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">What is CSRF? Does frontend alone prevent it?</div>
+              <div class="q-hint"><strong>Hint:</strong> Cross-Site Request Forgery — a malicious site triggers actions on your site using the user's cookies. Frontend alone cannot prevent it. Needs server-side tokens (CSRF tokens) or <code>SameSite</code> cookie attributes.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">Why is <code>eval()</code> dangerous?</div>
+              <div class="q-hint"><strong>Hint:</strong> Executes arbitrary strings as code. If any of it comes from user input, it's an XSS hole. Slower than compiled code. Almost never needed.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">What is Content Security Policy?</div>
+              <div class="q-hint"><strong>Hint:</strong> An HTTP header (or meta tag) that whitelists which sources can load scripts, styles, images. Blocks inline scripts by default. Defense-in-depth against XSS.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">Why should you never trust user input?</div>
+              <div class="q-hint"><strong>Hint:</strong> Input can come from anywhere — forms, URLs, headers, cookies. It can contain scripts, SQL, or malformed data. Always validate and escape on both client and server.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">Difference between authentication and authorization?</div>
+              <div class="q-hint"><strong>Hint:</strong> Authentication = who you are (login). Authorization = what you can do (permissions). Both must be enforced server-side; the frontend can only hide UI, not prevent access.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 10. BROWSER ============ -->
+      <section class="panel" data-panel="browser">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 10</div>
+          <h2>Browser Behavior</h2>
+          <p>What actually happens when someone visits a page.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item common">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">What happens between typing a URL and seeing the page?</div>
+              <div class="q-hint"><strong>Hint:</strong> DNS lookup → TCP handshake → TLS handshake → HTTP request → server response → HTML parsing → subresource fetches → CSSOM + DOM → render tree → layout → paint → composite.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">What is the same-origin policy?</div>
+              <div class="q-hint"><strong>Hint:</strong> A browser security rule — scripts on one origin cannot read data from another origin unless explicitly allowed. Origin = protocol + host + port.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">What is CORS? Why does it exist?</div>
+              <div class="q-hint"><strong>Hint:</strong> Cross-Origin Resource Sharing — a controlled way to relax same-origin policy. The server sends <code>Access-Control-Allow-Origin</code> headers. Preflight requests (OPTIONS) handle non-simple ones.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">Cookies vs <code>localStorage</code> vs <code>sessionStorage</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> Cookies: sent with every HTTP request, size limit ~4KB, can be HttpOnly/Secure. <code>localStorage</code>: persists forever, no expiry, ~5–10MB. <code>sessionStorage</code>: clears when tab closes, same size limit.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">What is HTTP caching?</div>
+              <div class="q-hint"><strong>Hint:</strong> Browsers store responses. Controlled by headers: <code>Cache-Control</code>, <code>ETag</code>, <code>Last-Modified</code>. Avoids re-downloading unchanged assets.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">Difference between HTTP/1.1, HTTP/2, HTTP/3?</div>
+              <div class="q-hint"><strong>Hint:</strong> 1.1: one request per connection (with some reuse). 2: multiplexing over one TCP connection, header compression. 3: uses QUIC (UDP) for lower latency.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 11. TOOLING ============ -->
+      <section class="panel" data-panel="tooling">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 11</div>
+          <h2>Tooling &amp; Workflow</h2>
+          <p>The build tools and process around the code.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">What is npm? What is <code>package.json</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> Node Package Manager — installs and manages JS dependencies. <code>package.json</code> lists dependencies, scripts, and project metadata.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">What's a bundler? Why use one (Webpack, Vite, Rollup)?</div>
+              <div class="q-hint"><strong>Hint:</strong> Combines many files into a few bundles. Enables tree-shaking, minification, code splitting, and transpilation. Reduces HTTP requests and ships smaller code.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">What is a build step? What does transpiling mean (Babel)?</div>
+              <div class="q-hint"><strong>Hint:</strong> A build step transforms source files before serving. Transpiling converts newer syntax (ES2020+) to older syntax for compatibility.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">What is Git? Explain <code>commit</code>, <code>branch</code>, <code>merge</code>.</div>
+              <div class="q-hint"><strong>Hint:</strong> Distributed version control. <code>commit</code> = snapshot. <code>branch</code> = independent line of work. <code>merge</code> = combine branches back together.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">Difference between <code>git pull</code> and <code>git fetch</code>?</div>
+              <div class="q-hint"><strong>Hint:</strong> <code>fetch</code> downloads changes but doesn't merge. <code>pull</code> fetches and merges in one step.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">What is a linter? What is a formatter?</div>
+              <div class="q-hint"><strong>Hint:</strong> Linter (ESLint) catches bugs and style issues. Formatter (Prettier) reformats code to a canonical style. They solve different problems.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 12. FRAMEWORKS ============ -->
+      <section class="panel" data-panel="frameworks">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 12</div>
+          <h2>Frameworks &amp; Concepts</h2>
+          <p>If the course covers React/Vue/Angular, expect these.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item common">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">Why use a framework? When not to?</div>
+              <div class="q-hint"><strong>Hint:</strong> Use when the app is complex, has lots of state, or teams need structure. Skip for small static sites, marketing pages, or simple forms — the overhead isn't worth it.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">What is reactivity?</div>
+              <div class="q-hint"><strong>Hint:</strong> When data changes, the UI updates automatically. Frameworks achieve this via proxies (Vue 3), signals, or explicit state setters (React's <code>setState</code>).</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">What is the virtual DOM?</div>
+              <div class="q-hint"><strong>Hint:</strong> An in-memory tree of the UI. On state change, the framework diffs new vs old and applies only the necessary real DOM updates. React's approach.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">What is a component? What is props vs state?</div>
+              <div class="q-hint"><strong>Hint:</strong> A component is a reusable UI unit. Props are inputs from the parent (read-only). State is internal data the component manages and can change.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">What is unidirectional data flow?</div>
+              <div class="q-hint"><strong>Hint:</strong> Data flows down through props, events flow up through callbacks. Makes state predictable and debugging easier.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">What is SSR vs CSR vs SSG?</div>
+              <div class="q-hint"><strong>Hint:</strong> SSR: server renders HTML per request. CSR: browser renders after JS loads. SSG: HTML built at deploy time. Each trades off speed, freshness, and complexity.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 13. DESIGN & UX ============ -->
+      <section class="panel" data-panel="ux">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 13</div>
+          <h2>Design &amp; UX</h2>
+          <p>The parts that aren't code but determine whether the code works.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">What are the principles of good visual hierarchy?</div>
+              <div class="q-hint"><strong>Hint:</strong> Size, contrast, spacing, position. The eye should land on the most important element first, then flow naturally through the rest.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">Why is whitespace important?</div>
+              <div class="q-hint"><strong>Hint:</strong> Improves readability, groups related content, reduces cognitive load. Cramped layouts feel stressful; generous ones feel premium and calm.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">What's the difference between UX and UI?</div>
+              <div class="q-hint"><strong>Hint:</strong> UX is the whole experience — flow, logic, whether users can accomplish their goal. UI is the visual layer — color, typography, spacing. UX without UI looks bad; UI without UX is a pretty trap.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">Give an example of a bad UX pattern and how to fix it.</div>
+              <div class="q-hint"><strong>Hint:</strong> Example: a destructive "Delete" button right next to "Cancel" with no confirmation. Fix: move it away, use a confirm dialog, or add a short undo window.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">What is progressive enhancement?</div>
+              <div class="q-hint"><strong>Hint:</strong> Build a working baseline, then layer on enhancements for capable browsers. A form that works without JS, then gets client-side validation. Opposed to graceful degradation.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">What is graceful degradation?</div>
+              <div class="q-hint"><strong>Hint:</strong> Build for the modern browser, then make it not break completely on older ones. Simpler but less reliable than progressive enhancement.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 14. PROCESS ============ -->
+      <section class="panel" data-panel="process">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 14</div>
+          <h2>Process &amp; Reasoning</h2>
+          <p>Questions about how you think, not just what you know.</p>
+        </div>
+
+        <div class="q-list">
+          <div class="q-item common">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">Why did you choose this stack?</div>
+              <div class="q-hint"><strong>Hint:</strong> Have an actual reason tied to the project scope. "I chose X because Y, and I accepted the trade-off that Z." Don't say "it's popular."</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">What alternatives did you consider?</div>
+              <div class="q-hint"><strong>Hint:</strong> Show you evaluated, not just picked. Even a short "I considered X but chose Y because of Z" is worth more than a confident wrong answer.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">What would you change if you started over?</div>
+              <div class="q-hint"><strong>Hint:</strong> Have one or two specific answers. Vague "I'd use a framework" is weak. "I'd use real ES modules instead of a global namespace" is specific and shows you learned.</div>
+            </div>
+          </div>
+
+          <div class="q-item common">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">What was the hardest bug you fixed?</div>
+              <div class="q-hint"><strong>Hint:</strong> Tell a story: symptom → wrong hypotheses → how you found it → what you learned. Don't just say "there was a syntax error."</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">What did you learn that you didn't know before?</div>
+              <div class="q-hint"><strong>Hint:</strong> Something specific — a browser behavior, a debugging technique, a trade-off you only understood after hitting it.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">06</div>
+            <div class="q-body">
+              <div class="q-text">If you had two more weeks, what would you add?</div>
+              <div class="q-hint"><strong>Hint:</strong> Name a real feature or improvement with a reason. Tests, real auth, better error handling, refactor of the render pipeline.</div>
+            </div>
+          </div>
+
+          <div class="q-item hard">
+            <div class="q-num">07</div>
+            <div class="q-body">
+              <div class="q-text">How would this scale to 10× the users/data?</div>
+              <div class="q-hint"><strong>Hint:</strong> Name bottlenecks and fixes. Server-side pagination, caching, debouncing input, virtual lists, moving auth to the server. Vague "I'd use a bigger server" is weak.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 15. STRATEGY ============ -->
+      <section class="panel" data-panel="strategy">
+        <div class="panel-head">
+          <div class="eyebrow">Topic 15</div>
+          <h2>Defense Strategy</h2>
+          <p>How to handle the room, not just the questions.</p>
+        </div>
+
+        <div class="callout">
+          <strong>The three categories of questions.</strong> Teachers test three things: what you know, how you reason, and how you handle pressure. Different questions probe different ones.
+        </div>
+
+        <div class="sub-head">The three buckets</div>
+        <div class="strategy-grid">
+          <div class="strategy-card">
+            <div class="s-icon a"><i class="fa-solid fa-book"></i></div>
+            <h4>Category A — Fundamentals</h4>
+            <p>Definitions and facts. Specificity, box model, event bubbling, async/await. You either know them or you don't. <em>Prepare by reviewing a standard reference.</em></p>
+          </div>
+          <div class="strategy-card">
+            <div class="s-icon b"><i class="fa-solid fa-scale-balanced"></i></div>
+            <h4>Category B — Trade-offs</h4>
+            <p>"Why did you use X instead of Y?" They're checking that you chose deliberately. <em>Best answer names the trade-off:</em> "I used X because of Z, but I gave up Y, which would matter if…"</p>
+          </div>
+          <div class="strategy-card">
+            <div class="s-icon c"><i class="fa-solid fa-lightbulb"></i></div>
+            <h4>Category C — Reasoning</h4>
+            <p>A scenario you haven't seen. They want to hear your process. <em>Talk out loud:</em> what you'd try first, how you'd debug, how you'd know it worked.</p>
+          </div>
+        </div>
+
+        <div class="sub-head">Five rules for the room</div>
+
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-num">01</div>
+            <div class="q-body">
+              <div class="q-text">Answer the question asked — don't ramble.</div>
+              <div class="q-hint">Two sentences is often enough. If they want more, they'll ask a follow-up. Long answers invite more questions.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">02</div>
+            <div class="q-body">
+              <div class="q-text">Name the trade-off.</div>
+              <div class="q-hint">"This works, but the cost is X." Shows maturity. Teachers reward candidates who see both sides.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">03</div>
+            <div class="q-body">
+              <div class="q-text">Admit what you don't know.</div>
+              <div class="q-hint">"I'm not sure, but I'd approach it by…" is far better than bluffing. Teachers spot bluffing instantly and it costs you more than a blank.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">04</div>
+            <div class="q-body">
+              <div class="q-text">Point to evidence.</div>
+              <div class="q-hint">"You can see this in the DevTools Network tab." Concrete beats abstract. Offer to open the browser and demonstrate.</div>
+            </div>
+          </div>
+
+          <div class="q-item">
+            <div class="q-num">05</div>
+            <div class="q-body">
+              <div class="q-text">Don't get defensive.</div>
+              <div class="q-hint">Questions are probes, not attacks. "That's a good point — the current version doesn't handle that. Here's what I'd do…" wins every time.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-head">The question to always be ready for</div>
+
+        <div class="callout good">
+          <strong>"Walk me through what happens when…"</strong> Every teacher has a version of this. Pick the most important interaction in your project and be able to trace it end-to-end: what the user does, what code runs, what the browser does, what comes back. Being able to trace one thing completely is more convincing than being able to talk vaguely about ten.
+        </div>
+
+        <div class="sub-head">Preparation checklist</div>
+
+        <div class="q-list">
+          <div class="q-item">
+            <div class="q-num">✓</div>
+            <div class="q-body">
+              <div class="q-text">Re-read the core concept list (HTML, CSS, JS) the night before.</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">✓</div>
+            <div class="q-body">
+              <div class="q-text">Have a one-sentence answer ready for each "why did you choose X" question.</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">✓</div>
+            <div class="q-body">
+              <div class="q-text">Prepare one full end-to-end walkthrough — practice out loud, three times.</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">✓</div>
+            <div class="q-body">
+              <div class="q-text">Have DevTools open on the console tab during the presentation.</div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">✓</div>
+            <div class="q-body">
+              <div class="q-text">Keep the three or four most relevant source files open in editor tabs.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout warn">
+          <strong>What NOT to do.</strong> Don't say "I'll just look it up" if you blank. Instead: <em>"I'd start by checking whether the data is reaching the render function — I'd log it in the console."</em> Shows process, buys time. Teachers respect that over freezing.
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-hint">
+      <span class="hint-group">
+        <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><span class="hint-label">jump</span>
+      </span>
+      <span class="hint-sep"></span>
+      <span class="hint-group">
+        <kbd>←</kbd><kbd>→</kbd><span class="hint-label">navigate</span>
+      </span>
+      <span class="hint-sep"></span>
+      <span class="hint-group">
+        <kbd>0</kbd><span class="hint-label">strategy</span>
+      </span>
+    </div>
+
+    <div class="toolbar" role="group" aria-label="Site navigation">
+      <a href="index.html" class="tool-btn" data-tone="emerald" title="Back to the app">
+        <i class="fa-solid fa-house"></i>
+        <span class="tool-btn-text">Home</span>
+      </a>
+      <a href="help.html" class="tool-btn" data-tone="sky" title="Help &amp; Support">
+        <i class="fa-solid fa-circle-question"></i>
+        <span class="tool-btn-text">Help</span>
+      </a>
+      <a href="presentation.html" class="tool-btn" data-tone="purple" title="Presentation">
+        <i class="fa-solid fa-chalkboard-user"></i>
+        <span class="tool-btn-text">Slides</span>
+      </a>
+      <a href="qa.html" class="tool-btn" data-tone="amber" title="Project Q&amp;A — defense prep">
+        <i class="fa-solid fa-clipboard-question"></i>
+        <span class="tool-btn-text">Q&amp;A</span>
+      </a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const tabs   = Array.from(document.querySelectorAll('.tab-btn'));
+  const panels = Array.from(document.querySelectorAll('.panel'));
+  const main   = document.querySelector('.app-main');
+
+  function activate(key) {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === key));
+    panels.forEach(p => p.classList.toggle('active', p.dataset.panel === key));
+    if (main) main.scrollTop = 0;
+    try { localStorage.setItem('fe.qa.tab', key); } catch {}
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => activate(tab.dataset.tab));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+
+    if (e.key >= '1' && e.key <= '9') {
+      const idx = parseInt(e.key, 10) - 1;
+      if (tabs[idx]) { activate(tabs[idx].dataset.tab); e.preventDefault(); }
+      return;
+    }
+    if (e.key === '0') {
+      const last = tabs[tabs.length - 1];
+      if (last) { activate(last.dataset.tab); e.preventDefault(); }
+      return;
+    }
+
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      const current = tabs.findIndex(t => t.classList.contains('active'));
+      if (current === -1) return;
+      const next = e.key === 'ArrowRight'
+        ? (current + 1) % tabs.length
+        : (current - 1 + tabs.length) % tabs.length;
+      activate(tabs[next].dataset.tab);
+      tabs[next].scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+      e.preventDefault();
+    }
+  });
+
+  try {
+    const saved = localStorage.getItem('fe.qa.tab');
+    if (saved && tabs.some(t => t.dataset.tab === saved)) {
+      activate(saved);
+      tabs.find(t => t.dataset.tab === saved)
+          .scrollIntoView({ block: 'nearest', inline: 'center' });
+    }
+  } catch {}
+})();
+</script>
+
+</body>
+</html>
