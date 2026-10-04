@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asni Guest House — Project Presentation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Ethiopic:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/presentation.css">
+<style>
+  /* ============================================================
+     Presentation controls — extra page-navigation links
+     Extends the existing .controls tray. Does not modify
+     #btnPrev, #btnNext, #btnFull.
+     ============================================================ */
+  .controls .ctrl-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    text-decoration: none;
+    color: var(--tone, #94a3b8);
+    background: color-mix(in srgb, var(--tone, #94a3b8) 8%, transparent);
+    border: 1px solid transparent;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s, color 0.15s;
+  }
+
+  .controls .ctrl-link:hover {
+    background: color-mix(in srgb, var(--tone, #f59e0b) 18%, transparent);
+    border-color: color-mix(in srgb, var(--tone, #f59e0b) 45%, transparent);
+    transform: translateY(-1px);
+  }
+
+  .controls .ctrl-link:active { transform: translateY(0); }
+
+  .controls .ctrl-link:focus-visible {
+    outline: 2px solid var(--tone, #f59e0b);
+    outline-offset: 2px;
+  }
+
+  .controls .ctrl-link[data-tone="emerald"] { --tone: #10b981; }
+  .controls .ctrl-link[data-tone="sky"]     { --tone: #0ea5e9; }
+  .controls .ctrl-link[data-tone="amber"]   { --tone: #f59e0b; }
+  .controls .ctrl-link[data-tone="purple"]  { --tone: #a855f7; }
+
+  /* Optional separator before the link cluster */
+  .controls .ctrl-link:first-of-type {
+    margin-left: 8px;
+    position: relative;
+  }
+  .controls .ctrl-link:first-of-type::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 16px;
+    background: rgba(148, 163, 184, 0.2);
+  }
+
+  @media (max-width: 640px) {
+    .controls .ctrl-link { width: 28px; height: 28px; font-size: 0.75rem; }
+  }
+
+  @media print {
+    .controls .ctrl-link { display: none !important; }
+  }
+</style>
+</head>
+<body class="lang-en">
+
+<!-- CHROME -->
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+<!--
+<div class="controls">
+  <button id="btnPrev" data-i18n-title="ctrl_prev" title="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+  <button id="btnNext" data-i18n-title="ctrl_next" title="Next"><i class="fa-solid fa-chevron-right"></i></button>
+  <button id="btnFull" data-i18n-title="ctrl_fullscreen" title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
+</div>
+-->
+<div class="controls">
+  <button id="btnPrev" data-i18n-title="ctrl_prev" title="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+  <button id="btnNext" data-i18n-title="ctrl_next" title="Next"><i class="fa-solid fa-chevron-right"></i></button>
+  <button id="btnFull" data-i18n-title="ctrl_fullscreen" title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
+  
+  <a href="index.html" class="ctrl-link" data-tone="emerald" title="App Home"><i class="fa-solid fa-house"></i></a>
+  <a href="help.html" class="ctrl-link" data-tone="sky" title="Help &amp; Support"><i class="fa-solid fa-circle-question"></i></a>
+  <a href="qa.html" class="ctrl-link" data-tone="amber" title="Project Q&amp;A"><i class="fa-solid fa-clipboard-question"></i></a>
+  <a href="frontend-qa.html" class="ctrl-link" data-tone="purple" title="Frontend Q&amp;A"><i class="fa-solid fa-graduation-cap"></i></a>
+</div>
+
+<div class="chrome-tools">
+  <button id="btnTheme" class="chrome-btn" data-i18n-title="ctrl_theme" title="Toggle theme">
+    <i class="fa-solid fa-moon" id="themeIcon"></i>
+  </button>
+  <button id="btnLang" class="chrome-btn chrome-btn-lang" data-i18n-title="ctrl_lang" title="Change language">
+    <i class="fa-solid fa-language"></i>
+    <span id="langLabel">EN</span>
+  </button>
+</div>
+
+<div class="slide-counter"><span id="curSlide">1</span> / <span id="totSlides">26</span></div>
+
+<!-- ============================================================
+     STAGE — ALL SLIDES
+     ============================================================ -->
+<div class="stage" id="stage">
+
+<!-- 1 — COVER -->
+<section class="slide cover active">
+  <div class="logo">Asni</div>
+  <span class="slide-kicker"><i class="fa-solid fa-graduation-cap"></i> <span data-i18n="cover_kicker">Web Development — Final Project</span></span>
+  <h1>
+    <span data-i18n="cover_title_line1">Asni Guest House</span><br>
+    <span class="accent" data-i18n="cover_title_line2">Booking Web Application</span>
+  </h1>
+  <p class="tagline" data-i18n="cover_tagline">
+    A full-stack guest house management platform for a small Ethiopian hospitality business in Ferenj Arada, Jimma — built with a framework-free frontend, a Cloudflare Worker API, and an edge-deployed D1 (SQLite) database.
+  </p>
+  <div class="cover-meta">
+    <div class="cover-chip"><i class="fa-solid fa-code"></i> <span data-i18n="cover_chip1">HTML · CSS · Vanilla JS</span></div>
+    <div class="cover-chip"><i class="fa-solid fa-cloud"></i> <span data-i18n="cover_chip2">Cloudflare Workers + D1</span></div>
+    <div class="cover-chip"><i class="fa-solid fa-rocket"></i> <span data-i18n="cover_chip3">Deployed on Vercel</span></div>
+  </div>
+  <div class="cover-footer">
+    <span data-i18n="cover_footer_presented">Presented by</span> &nbsp;—&nbsp; Sosinal Leulseged
+  </div>
+</section>
+
+<!-- 2 — AGENDA -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-list-check"></i> <span data-i18n="agenda_kicker">Agenda</span></span>
+  <h2 class="slide-title"><span data-i18n="agenda_title">What we'll cover</span> <span class="accent" data-i18n="agenda_title_accent">today</span></h2>
+  <p class="slide-sub" data-i18n="agenda_sub">From problem definition to deployed product — with an in-depth look at the frontend architecture.</p>
+
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <div class="card amber" style="margin-bottom:0.75rem;">
+          <div class="card-title"><i class="fa-solid fa-bullseye"></i> <span data-i18n="agenda_p1_title">Part 1 — Foundations</span></div>
+          <ul class="clean">
+            <li data-i18n="agenda_p1_a">Problem statement &amp; business context</li>
+            <li data-i18n="agenda_p1_b">Project objectives and scope</li>
+            <li data-i18n="agenda_p1_c">Technology stack &amp; justification</li>
+            <li data-i18n="agenda_p1_d">Theme system (dark / light)</li>
+            <li data-i18n="agenda_p1_e">Amharic localisation (i18n)</li>
+          </ul>
+        </div>
+        <div class="card sky">
+          <div class="card-title"><i class="fa-solid fa-server"></i> <span data-i18n="agenda_p2_title">Part 2 — Backend &amp; Data</span></div>
+          <ul class="clean">
+            <li data-i18n="agenda_p2_a">Cloudflare D1 schema design</li>
+            <li data-i18n="agenda_p2_b">REST-style Worker API</li>
+            <li data-i18n="agenda_p2_c">Deployment (Vercel + Cloudflare)</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="card emerald" style="margin-bottom:0.75rem; border-left-width:6px;">
+          <div class="card-title"><i class="fa-solid fa-palette"></i> <span data-i18n="agenda_p3_title">Part 3 —</span> <span style="color:#6ee7b7;" data-i18n="agenda_p3_accent">Frontend Deep Dive</span></div>
+          <ul class="clean check">
+            <li data-i18n="agenda_p3_a">Design system &amp; glassmorphism UI</li>
+            <li data-i18n="agenda_p3_b">Fixed-viewport layout architecture</li>
+            <li data-i18n="agenda_p3_c">Role-based access control on the client</li>
+            <li data-i18n="agenda_p3_d">State management &amp; rendering pipeline</li>
+            <li data-i18n="agenda_p3_e">Interactive components &amp; data visualization</li>
+          </ul>
+        </div>
+        <div class="card rose">
+          <div class="card-title"><i class="fa-solid fa-flag-checkered"></i> <span data-i18n="agenda_p4_title">Part 4 — Wrap-up</span></div>
+          <ul class="clean">
+            <li data-i18n="agenda_p4_a">Challenges &amp; lessons learned</li>
+            <li data-i18n="agenda_p4_b">Future enhancements</li>
+            <li data-i18n="agenda_p4_c">Live demo &amp; Q&amp;A</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 — PROBLEM -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="problem_kicker">The Problem</span></span>
+  <h2 class="slide-title"><span data-i18n="problem_title">Small guest houses run on</span> <span class="accent" data-i18n="problem_title_accent">paper and phone calls</span></h2>
+  <p class="slide-sub" data-i18n="problem_sub">Manual hotel management creates real operational pain in the Ethiopian hospitality sector.</p>
+
+  <div class="content">
+    <div class="grid-3">
+      <div class="card rose">
+        <div class="card-title"><i class="fa-solid fa-book"></i> <span data-i18n="problem_c1_title">Paper Registers</span></div>
+        <div class="card-body" data-i18n="problem_c1_body">
+          Room bookings, guest IDs, and check-in dates are written by hand. A single water spill or lost notebook means lost revenue and legal traceability.
+        </div>
+      </div>
+      <div class="card amber">
+        <div class="card-title"><i class="fa-solid fa-phone-slash"></i> <span data-i18n="problem_c2_title">No Online Presence</span></div>
+        <div class="card-body" data-i18n="problem_c2_body">
+          Walk-ins only. Travellers researching Jimma on Google have no way to see room availability, prices, or menu before arriving.
+        </div>
+      </div>
+      <div class="card sky">
+        <div class="card-title"><i class="fa-solid fa-users-gear"></i> <span data-i18n="problem_c3_title">No Staff Roles</span></div>
+        <div class="card-body" data-i18n="problem_c3_body">
+          Everyone can see everything. There is no separation between owner, receptionist, and guest — a compliance and privacy problem.
+        </div>
+      </div>
+    </div>
+
+    <div class="card amber" style="margin-top:1.25rem;">
+      <div class="card-title"><i class="fa-solid fa-lightbulb"></i> <span data-i18n="problem_opp_title">The Opportunity</span></div>
+      <div class="card-body" data-i18n="problem_opp_body">
+        Jimma sits on a growing tourism corridor (Aba Jifar Palace, coffee farms, university visitors). A small, focused web app can triple booking visibility at near-zero infrastructure cost.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 — OBJECTIVES -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-bullseye"></i> <span data-i18n="obj_kicker">Project Objectives</span></span>
+  <h2 class="slide-title"><span data-i18n="obj_title">What this app is built to</span> <span class="accent" data-i18n="obj_title_accent">solve</span></h2>
+
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <div class="card emerald" style="margin-bottom:0.7rem;">
+          <div class="card-title"><i class="fa-solid fa-1"></i> <span data-i18n="obj_1_title">Digitize the Booking Flow</span></div>
+          <div class="card-body" data-i18n="obj_1_body">Replace paper registers with a searchable, filterable bookings table backed by a real database.</div>
+        </div>
+        <div class="card emerald" style="margin-bottom:0.7rem;">
+          <div class="card-title"><i class="fa-solid fa-2"></i> <span data-i18n="obj_2_title">Role-Based Access</span></div>
+          <div class="card-body" data-i18n="obj_2_body">Distinct experiences for Admin, Receptionist, and Guest — enforced on the frontend and validated on the backend.</div>
+        </div>
+        <div class="card emerald">
+          <div class="card-title"><i class="fa-solid fa-3"></i> <span data-i18n="obj_3_title">Full CRUD on All Entities</span></div>
+          <div class="card-body" data-i18n="obj_3_body">Rooms, Users, Bookings, Menu Items, Orders, Tables, and Banners — create, read, update, delete.</div>
+        </div>
+      </div>
+      <div>
+        <div class="card sky" style="margin-bottom:0.7rem;">
+          <div class="card-title"><i class="fa-solid fa-4"></i> <span data-i18n="obj_4_title">Zero-Cost Hosting</span></div>
+          <div class="card-body" data-i18n="obj_4_body">Deployable on free tiers of Vercel (frontend) and Cloudflare (edge API + D1 database).</div>
+        </div>
+        <div class="card sky" style="margin-bottom:0.7rem;">
+          <div class="card-title"><i class="fa-solid fa-5"></i> <span data-i18n="obj_5_title">Framework-Free Frontend</span></div>
+          <div class="card-body" data-i18n="obj_5_body">Build a full SPA-like experience using only HTML, CSS custom properties, and vanilla JavaScript — no React, no Vue.</div>
+        </div>
+        <div class="card sky">
+          <div class="card-title"><i class="fa-solid fa-6"></i> <span data-i18n="obj_6_title">Production-Ready UX</span></div>
+          <div class="card-body" data-i18n="obj_6_body">Toast notifications, glassmorphism, responsive layout, live charts, and keyboard-accessible modals.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 — TECH STACK -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-layer-group"></i> <span data-i18n="stack_kicker">Technology Stack</span></span>
+  <h2 class="slide-title"><span data-i18n="stack_title">Chosen for</span> <span class="accent" data-i18n="stack_title_accent">simplicity and zero cost</span></h2>
+  <p class="slide-sub" data-i18n="stack_sub">Every tool is either a web standard or a free-tier cloud service.</p>
+
+  <div class="content">
+    <div class="grid-3">
+      <div class="card amber">
+        <div class="card-title"><i class="fa-brands fa-html5" style="color:#e34f26;"></i> <span data-i18n="stack_fe_title">Frontend</span></div>
+        <ul class="clean">
+          <li><strong>HTML5</strong> — <span data-i18n="stack_fe_1">semantic structure</span></li>
+          <li><strong>CSS3</strong> — <span data-i18n="stack_fe_2">custom properties, grid, flexbox, glassmorphism</span></li>
+          <li><strong>Vanilla JavaScript (ES2020+)</strong> — <span data-i18n="stack_fe_3">IIFE module pattern, async/await, fetch API</span></li>
+          <li><strong>Chart.js</strong> — <span data-i18n="stack_fe_4">canvas-based analytics</span></li>
+          <li><strong>Font Awesome 6</strong> — <span data-i18n="stack_fe_5">icon system</span></li>
+        </ul>
+      </div>
+      <div class="card sky">
+        <div class="card-title"><i class="fa-solid fa-server"></i> <span data-i18n="stack_be_title">Backend &amp; Data</span></div>
+        <ul class="clean">
+          <li><strong>Cloudflare Worker</strong> — <span data-i18n="stack_be_1">serverless edge function</span></li>
+          <li><strong>Cloudflare D1</strong> — <span data-i18n="stack_be_2">managed SQLite at the edge</span></li>
+          <li><strong>REST-style JSON API</strong> — <span data-i18n="stack_be_3">one POST endpoint, parameterized SQL</span></li>
+          <li><strong>SQLite SQL</strong> — <span data-i18n="stack_be_4">full schema with CHECK constraints</span></li>
+        </ul>
+      </div>
+      <div class="card emerald">
+        <div class="card-title"><i class="fa-solid fa-cloud-arrow-up"></i> <span data-i18n="stack_deploy_title">Deployment &amp; Tooling</span></div>
+        <ul class="clean">
+          <li><strong>Vercel</strong> — <span data-i18n="stack_deploy_1">static frontend hosting with CI/CD from GitHub</span></li>
+          <li><strong>Cloudflare Workers</strong> — <span data-i18n="stack_deploy_2">global edge deploy</span></li>
+          <li><strong>Git + GitHub</strong> — <span data-i18n="stack_deploy_3">version control</span></li>
+          <li><strong>VS Code</strong> — <span data-i18n="stack_deploy_4">development environment</span></li>
+          <li><strong>Browser DevTools</strong> — <span data-i18n="stack_deploy_5">debugging &amp; performance</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card indigo" style="margin-top:1.25rem;">
+      <div class="card-title"><i class="fa-solid fa-question"></i> <span data-i18n="stack_why_title">Why not React / Next.js / Node?</span></div>
+      <div class="card-body" data-i18n="stack_why_body">
+        For a course project, the goal was to demonstrate mastery of the fundamentals. A framework-free build proves a deeper understanding of DOM, event delegation, state, and rendering — and it deploys to any static host with a single file. Cloudflare Workers replace a Node server with edge functions that run in 300+ cities at zero cost.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 — ARCHITECTURE -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-diagram-project"></i> <span data-i18n="arch_kicker">System Architecture</span></span>
+  <h2 class="slide-title"><span data-i18n="arch_title">Three-tier,</span> <span class="accent" data-i18n="arch_title_accent">edge-first</span> <span data-i18n="arch_title_end">architecture</span></h2>
+
+  <div class="content">
+    <div class="arch-row">
+      <div class="arch-node" style="border-color: rgba(245,158,11,0.4);">
+        <i class="fa-solid fa-display" style="color:#f59e0b;"></i>
+        <div class="n-title" data-i18n="arch_c1_title">Client Browser</div>
+        <div class="n-sub" data-i18n="arch_c1_sub">index.html · style.css · app.js</div>
+      </div>
+      <div class="arch-arrow"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+      <div class="arch-node" style="border-color: rgba(14,165,233,0.4);">
+        <i class="fa-solid fa-bolt" style="color:#0ea5e9;"></i>
+        <div class="n-title" data-i18n="arch_c2_title">Cloudflare Worker</div>
+        <div class="n-sub" data-i18n="arch_c2_sub">POST /api/query · JSON</div>
+      </div>
+      <div class="arch-arrow"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+      <div class="arch-node" style="border-color: rgba(16,185,129,0.4);">
+        <i class="fa-solid fa-database" style="color:#10b981;"></i>
+        <div class="n-title" data-i18n="arch_c3_title">Cloudflare D1</div>
+        <div class="n-sub" data-i18n="arch_c3_sub">SQLite at the edge</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:0.5rem;">
+      <div class="card amber">
+        <div class="card-title"><i class="fa-solid fa-route"></i> <span data-i18n="arch_life_title">Request Lifecycle</span></div>
+        <ul class="clean arrow">
+          <li data-i18n="arch_life_1">User clicks a button in the SPA</li>
+          <li data-i18n="arch_life_2">JS calls apiQuery(sql, params)</li>
+          <li data-i18n="arch_life_3">fetch() POSTs JSON to the Worker URL</li>
+          <li data-i18n="arch_life_4">Worker prepares &amp; binds the SQL statement</li>
+          <li data-i18n="arch_life_5">D1 executes and returns rows</li>
+          <li data-i18n="arch_life_6">JS re-renders only the affected views</li>
+        </ul>
+      </div>
+      <div class="card emerald">
+        <div class="card-title"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="arch_why_title">Why This Architecture?</span></div>
+        <ul class="clean check">
+          <li data-i18n="arch_why_1">No server to manage — Cloudflare runs it</li>
+          <li data-i18n="arch_why_2">Global low latency — data served near the user</li>
+          <li data-i18n="arch_why_3">Parameterized SQL — prevents SQL injection</li>
+          <li data-i18n="arch_why_4">Offline fallback — app caches data in localStorage if the API is down</li>
+          <li data-i18n="arch_why_5">Free tier friendly — 100k requests/day on Workers</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 — SCHEMA -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-database"></i> <span data-i18n="schema_kicker">Database Design</span></span>
+  <h2 class="slide-title"><span data-i18n="schema_title">Seven tables,</span> <span class="accent" data-i18n="schema_title_accent">strict constraints</span></h2>
+  <p class="slide-sub" data-i18n="schema_sub">Every column type and every enum is enforced at the SQLite level.</p>
+
+  <div class="content">
+    <div class="grid-4">
+      <div class="card amber">
+        <div class="card-title"><i class="fa-solid fa-users"></i> users</div>
+        <div class="card-body" style="font-size:0.72rem; font-family:monospace;">
+          id · full_name · email<br>phone · role · created_at<br>
+          <span style="color:#94a3b8;">role ∈ (admin, receptionist, guest)</span>
+        </div>
+      </div>
+      <div class="card emerald">
+        <div class="card-title"><i class="fa-solid fa-bed"></i> rooms</div>
+        <div class="card-body" style="font-size:0.72rem; font-family:monospace;">
+          id · room_number · room_type<br>price_per_night_etb · capacity<br>status · description
+        </div>
+      </div>
+      <div class="card sky">
+        <div class="card-title"><i class="fa-solid fa-calendar"></i> bookings</div>
+        <div class="card-body" style="font-size:0.72rem; font-family:monospace;">
+          id · room_id (FK) · guest_name<br>guest_phone · check_in_date<br>check_out_date · total_amount_etb
+        </div>
+      </div>
+      <div class="card rose">
+        <div class="card-title"><i class="fa-solid fa-utensils"></i> menu_items</div>
+        <div class="card-body" style="font-size:0.72rem; font-family:monospace;">
+          id · name · category<br>price_etb · available · description
+        </div>
+      </div>
+      <div class="card indigo">
+        <div class="card-title"><i class="fa-solid fa-chair"></i> restaurant_tables</div>
+        <div class="card-body" style="font-size:0.72rem; font-family:monospace;">
+          id · table_number · seating_capacity<br>zone · status
+        </div>
+      </div>
+      <div class="card purple">
+        <div class="card-title"><i class="fa-solid fa-receipt"></i> orders</div>
+        <div class="card-body" style="font-size:0.72rem; font-family:monospace;">
+          id · order_type<br>target_identifier · items_json<br>total_amount_etb · status
+        </div>
+      </div>
+      <div class="card teal">
+        <div class="card-title"><i class="fa-solid fa-bullhorn"></i> ad_banners</div>
+        <div class="card-body" style="font-size:0.72rem; font-family:monospace;">
+          id · title · description<br>tag · badge_color · active
+        </div>
+      </div>
+      <div class="card amber" style="border-left-color:#f59e0b;">
+        <div class="card-title"><i class="fa-solid fa-link"></i> <span data-i18n="schema_rel_title">Relationships</span></div>
+        <ul class="clean" style="font-size:0.75rem;">
+          <li data-i18n="schema_rel_1">bookings.room_id → rooms.id</li>
+          <li data-i18n="schema_rel_2">ON DELETE CASCADE</li>
+          <li data-i18n="schema_rel_3">Unique room_number &amp; user email</li>
+          <li data-i18n="schema_rel_4">CHECK constraints on all enums</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 — BACKEND -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-server"></i> <span data-i18n="be_kicker">Backend API</span></span>
+  <h2 class="slide-title"><span data-i18n="be_title">One endpoint,</span> <span class="accent" data-i18n="be_title_accent">all the power</span></h2>
+  <p class="slide-sub" data-i18n="be_sub">A single POST /api/query endpoint handles every CRUD operation with parameterized SQL.</p>
+
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <pre class="code"><span class="cm">// Cloudflare Worker — request handler</span>
+<span class="kw">export default</span> {
+  <span class="kw">async</span> <span class="fn">fetch</span>(request, env) {
+    <span class="cm">// 1. CORS preflight</span>
+    <span class="kw">if</span> (request.method === <span class="str">"OPTIONS"</span>) { ... }
+
+    <span class="cm">// 2. Health check</span>
+    <span class="kw">if</span> (url.pathname === <span class="str">"/api/health"</span>) { ... }
+
+    <span class="cm">// 3. SQL execution endpoint</span>
+    <span class="kw">const</span> { sql, params } = <span class="kw">await</span> request.json();
+    <span class="kw">const</span> stmt = env.DB.<span class="fn">prepare</span>(sql);
+    <span class="kw">const</span> boundStmt = params.length
+      ? stmt.<span class="fn">bind</span>(...params) : stmt;
+
+    <span class="kw">const</span> result = sql.<span class="fn">toUpperCase</span>().<span class="fn">startsWith</span>(<span class="str">"SELECT"</span>)
+      ? <span class="kw">await</span> boundStmt.<span class="fn">all</span>()
+      : <span class="kw">await</span> boundStmt.<span class="fn">run</span>();
+
+    <span class="kw">return</span> Response.<span class="fn">json</span>({
+      success: <span class="kw">true</span>,
+      results: result.results
+    });
+  }
+};</pre>
+      </div>
+      <div>
+        <div class="card emerald" style="margin-bottom:0.75rem;">
+          <div class="card-title"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="be_sec_title">Security: Parameterized SQL</span></div>
+          <div class="card-body" data-i18n="be_sec_body">
+            Instead of concatenating user input into SQL strings, we use bound parameters. db.prepare("... WHERE id = ?").bind(id) means D1 sends the SQL template and values separately — SQL injection is impossible by design.
+          </div>
+        </div>
+        <div class="card sky" style="margin-bottom:0.75rem;">
+          <div class="card-title"><i class="fa-solid fa-globe"></i> <span data-i18n="be_cors_title">CORS Handled</span></div>
+          <div class="card-body" data-i18n="be_cors_body">Proper Access-Control-Allow-Origin headers let the Vercel frontend call the Worker from a different domain.</div>
+        </div>
+        <div class="card rose">
+          <div class="card-title"><i class="fa-solid fa-bolt"></i> <span data-i18n="be_edge_title">Edge Execution</span></div>
+          <div class="card-body" data-i18n="be_edge_body">
+            The Worker runs in Cloudflare's V8 isolates — cold starts under 5ms, no container to boot, no region to choose. It scales to zero when idle.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 — SECTION DIVIDER -->
+<section class="slide section-slide">
+  <div class="sec-num">03</div>
+  <h2 data-i18n="sec3_title">Frontend <span class="accent">Deep Dive</span></h2>
+  <p data-i18n="sec3_sub">The largest, most engineered part of this project — where the user experience is designed, built, and shipped.</p>
+</section>
+
+<!-- 10 — PHILOSOPHY -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-compass-drafting"></i> <span data-i18n="phil_kicker">Frontend · Design Philosophy</span></span>
+  <h2 class="slide-title"><span data-i18n="phil_title">Five principles that shaped</span> <span class="accent-em" data-i18n="phil_title_accent">every screen</span></h2>
+
+  <div class="content">
+    <div class="grid-5">
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-1"></i> <span data-i18n="phil_1_t">Clarity</span></div><div class="card-body" data-i18n="phil_1_b">Information is hierarchically organised. KPI cards first, then charts, then tables.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-2"></i> <span data-i18n="phil_2_t">Feedback</span></div><div class="card-body" data-i18n="phil_2_b">Every action produces a visible response — toasts, button state changes, or animated re-renders.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-3"></i> <span data-i18n="phil_3_t">Role Awareness</span></div><div class="card-body" data-i18n="phil_3_b">The UI visibly changes colour and layout based on the currently active role.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-4"></i> <span data-i18n="phil_4_t">Mobile-First</span></div><div class="card-body" data-i18n="phil_4_b">Every layout starts from the smallest viewport and expands. No horizontal page scroll.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-5"></i> <span data-i18n="phil_5_t">Performance</span></div><div class="card-body" data-i18n="phil_5_b">Zero frameworks, zero bundlers. Three files, cached forever, loaded in under 200ms.</div></div>
+    </div>
+
+    <div class="card emerald" style="margin-top:1.25rem;">
+      <div class="card-title"><i class="fa-solid fa-quote-left"></i> <span data-i18n="phil_belief_title">The core belief</span></div>
+      <div class="card-body" data-i18n="phil_belief_body">
+        A well-designed admin UI is not decoration — it is operational efficiency. A receptionist who can check in a guest in 12 seconds instead of 90 saves the guest house real money.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 — LAYOUT -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-table-columns"></i> <span data-i18n="layout_kicker">Frontend · Layout Architecture</span></span>
+  <h2 class="slide-title"><span data-i18n="layout_title">A</span> <span class="accent-em" data-i18n="layout_title_accent">fixed shell</span> <span data-i18n="layout_title_end">with a single scroll region</span></h2>
+  <p class="slide-sub" data-i18n="layout_sub">The most common CSS bug in admin dashboards is page-level overflow. This layout prevents it entirely.</p>
+
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <div class="card emerald" style="margin-bottom:0.75rem;">
+          <div class="card-title"><i class="fa-solid fa-cube"></i> <span data-i18n="layout_c1_title">App Shell</span></div>
+          <div class="card-body" data-i18n="layout_c1_body">The &lt;body&gt; is a flex column at 100dvh (dynamic viewport height) — the header is fixed, everything else stretches to fill.</div>
+        </div>
+        <div class="card emerald" style="margin-bottom:0.75rem;">
+          <div class="card-title"><i class="fa-solid fa-bars-staggered"></i> <span data-i18n="layout_c2_title">Body Row</span></div>
+          <div class="card-body" data-i18n="layout_c2_body">A flex row containing sidebar (fixed 15rem) and main (flex: 1). min-height: 0 on both is critical — it is the secret that stops flexbox children from overflowing.</div>
+        </div>
+        <div class="card emerald">
+          <div class="card-title"><i class="fa-solid fa-arrows-up-down"></i> <span data-i18n="layout_c3_title">Only Main Scrolls</span></div>
+          <div class="card-body" data-i18n="layout_c3_body">overflow-y: auto lives on .app-main only. The sidebar has its own scroll region. The page itself never scrolls — this eliminates the classic double-scrollbar bug.</div>
+        </div>
+      </div>
+
+      <div>
+        <pre class="code"><span class="cm">/* style.css — the fixed shell */</span>
+<span class="fn">.app-shell</span> {
+  <span class="kw">display</span>: flex;
+  <span class="kw">flex-direction</span>: column;
+  <span class="kw">height</span>: <span class="num">100dvh</span>;
+  <span class="kw">overflow</span>: hidden;
+}
+
+<span class="fn">.app-body</span> {
+  <span class="kw">flex</span>: <span class="num">1</span>;
+  <span class="kw">display</span>: flex;
+  <span class="kw">min-height</span>: <span class="num">0</span>;      <span class="cm">/* the critical fix */</span>
+  <span class="kw">overflow</span>: hidden;
+}
+
+<span class="fn">.app-sidebar</span> {
+  <span class="kw">width</span>: <span class="num">15rem</span>;
+  <span class="kw">flex-shrink</span>: <span class="num">0</span>;
+  <span class="kw">overflow-y</span>: auto;
+}
+
+<span class="fn">.app-main</span> {
+  <span class="kw">flex</span>: <span class="num">1</span>;
+  <span class="kw">min-width</span>: <span class="num">0</span>;
+  <span class="kw">overflow-y</span>: auto;
+  <span class="kw">overflow-x</span>: hidden;
+}</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 — DESIGN SYSTEM -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-palette"></i> <span data-i18n="ds_kicker">Frontend · Design System</span></span>
+  <h2 class="slide-title"><span data-i18n="ds_title">A</span> <span class="accent-em" data-i18n="ds_title_accent">glassmorphism</span> <span data-i18n="ds_title_end">design system</span></h2>
+  <p class="slide-sub" data-i18n="ds_sub">Consistent visual language across 40+ components, driven entirely by CSS custom properties.</p>
+
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <pre class="code"><span class="cm">/* CSS custom properties */</span>
+<span class="fn">:root</span> {
+  <span class="kw">--amber</span>:   <span class="str">#f59e0b</span>;
+  <span class="kw">--emerald</span>: <span class="str">#10b981</span>;
+  <span class="kw">--sky</span>:     <span class="str">#0ea5e9</span>;
+  <span class="kw">--rose</span>:    <span class="str">#f43f5e</span>;
+  <span class="kw">--panel</span>:   <span class="fn">rgba</span>(<span class="num">30</span>,<span class="num">41</span>,<span class="num">59</span>,<span class="num">0.7</span>);
+  <span class="kw">--border</span>:  <span class="fn">rgba</span>(<span class="num">148</span>,<span class="num">163</span>,<span class="num">184</span>,<span class="num">0.14</span>);
+}
+
+<span class="fn">.glass-panel</span> {
+  <span class="kw">background</span>: <span class="kw">var</span>(--panel);
+  <span class="kw">backdrop-filter</span>: <span class="fn">blur</span>(<span class="num">12px</span>);
+  <span class="kw">border</span>: <span class="num">1px</span> solid <span class="kw">var</span>(--border);
+}
+
+<span class="fn">body.role-admin</span> {
+  <span class="kw">--role-accent</span>: <span class="str">#f43f5e</span>;
+  <span class="kw">--role-accent-soft</span>: <span class="fn">rgba</span>(<span class="num">244</span>,<span class="num">63</span>,<span class="num">94</span>,<span class="num">0.15</span>);
+}
+<span class="fn">body.role-receptionist</span> { <span class="kw">--role-accent</span>: <span class="str">#0ea5e9</span>; }
+<span class="fn">body.role-guest</span>        { <span class="kw">--role-accent</span>: <span class="str">#10b981</span>; }</pre>
+      </div>
+      <div>
+        <div class="card emerald" style="margin-bottom:0.6rem;">
+          <div class="card-title"><i class="fa-solid fa-circle-half-stroke"></i> <span data-i18n="ds_c1_title">Visual Language</span></div>
+          <div class="card-body" data-i18n="ds_c1_body">Layered translucency + subtle borders create depth without heavy shadows. Blur filters let content behind panels glow through — the UI feels alive rather than flat.</div>
+        </div>
+        <div class="card emerald" style="margin-bottom:0.6rem;">
+          <div class="card-title"><i class="fa-solid fa-palette"></i> <span data-i18n="ds_c2_title">Semantic Colours</span></div>
+          <div class="card-body" data-i18n="ds_c2_body">Each module owns a colour: amber for rooms, sky for users, rose for dining. Users learn them within minutes.</div>
+        </div>
+        <div class="card emerald">
+          <div class="card-title"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="ds_c3_title">One Variable, Whole Theme</span></div>
+          <div class="card-body" data-i18n="ds_c3_body">Switching roles just toggles a class on &lt;body&gt; — the entire accent palette cascades through every button, border, and badge automatically.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 — ROLE-BASED UI -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-user-shield"></i> <span data-i18n="rbac_kicker">Frontend · Role-Based UI</span></span>
+  <h2 class="slide-title"><span data-i18n="rbac_title">Three roles,</span> <span class="accent-em" data-i18n="rbac_title_accent">three distinct experiences</span></h2>
+
+  <div class="content">
+    <div class="grid-3">
+      <div class="role-box admin">
+        <div class="role-head"><i class="fa-solid fa-user-shield"></i> <span data-i18n="rbac_admin">Admin</span></div>
+        <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.6rem;" data-i18n="rbac_admin_sub">Red accent · full control</div>
+        <div class="role-nav-item"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_dashboard">Dashboard</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-bed"></i> <span data-i18n="nav_rooms">Rooms</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-users"></i> <span data-i18n="nav_users">Users</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-calendar"></i> <span data-i18n="nav_bookings">Bookings</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-utensils"></i> <span data-i18n="nav_restaurant">Restaurant</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-chair"></i> <span data-i18n="nav_tables">Tables</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-file-invoice-dollar"></i> <span data-i18n="nav_reports">Reports</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-bullhorn"></i> <span data-i18n="nav_banners">Banners</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-database"></i> <span data-i18n="nav_sql">SQL Console</span></div>
+      </div>
+
+      <div class="role-box receptionist">
+        <div class="role-head"><i class="fa-solid fa-headset"></i> <span data-i18n="rbac_recept">Receptionist</span></div>
+        <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.6rem;" data-i18n="rbac_recept_sub">Blue accent · daily operations</div>
+        <div class="role-nav-item"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_dashboard">Dashboard</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-bed"></i> <span data-i18n="nav_rooms">Rooms</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-users"></i> <span data-i18n="nav_users">Users</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-calendar"></i> <span data-i18n="nav_bookings">Bookings</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-utensils"></i> <span data-i18n="nav_restaurant">Restaurant</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-chair"></i> <span data-i18n="nav_tables">Tables</span></div>
+        <div class="role-nav-item off"><i class="fa-solid fa-file-invoice-dollar"></i> <span data-i18n="nav_reports">Reports</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-bullhorn"></i> <span data-i18n="nav_banners">Banners</span></div>
+        <div class="role-nav-item off"><i class="fa-solid fa-database"></i> <span data-i18n="nav_sql">SQL Console</span></div>
+      </div>
+
+      <div class="role-box guest">
+        <div class="role-head"><i class="fa-solid fa-user"></i> <span data-i18n="rbac_guest">Guest</span></div>
+        <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.6rem;" data-i18n="rbac_guest_sub">Green accent · view-only</div>
+        <div class="role-nav-item"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_dashboard">Dashboard</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-bed"></i> <span data-i18n="nav_rooms">Rooms</span></div>
+        <div class="role-nav-item off"><i class="fa-solid fa-users"></i> <span data-i18n="nav_users">Users</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-calendar"></i> <span data-i18n="nav_bookings">Bookings</span></div>
+        <div class="role-nav-item"><i class="fa-solid fa-utensils"></i> <span data-i18n="nav_restaurant">Restaurant</span></div>
+        <div class="role-nav-item off"><i class="fa-solid fa-chair"></i> <span data-i18n="nav_tables">Tables</span></div>
+        <div class="role-nav-item off"><i class="fa-solid fa-file-invoice-dollar"></i> <span data-i18n="nav_reports">Reports</span></div>
+        <div class="role-nav-item off"><i class="fa-solid fa-bullhorn"></i> <span data-i18n="nav_banners">Banners</span></div>
+        <div class="role-nav-item off"><i class="fa-solid fa-database"></i> <span data-i18n="nav_sql">SQL Console</span></div>
+      </div>
+    </div>
+
+    <div class="card amber" style="margin-top:1rem;">
+      <div class="card-title"><i class="fa-solid fa-code"></i> <span data-i18n="rbac_how_title">How it works — 15 lines of JavaScript</span></div>
+      <div class="card-body" style="font-family:monospace; font-size:0.75rem;" data-i18n="rbac_how_body">
+        Every nav item has a data-roles="admin,receptionist,guest" attribute. Changing role toggles a body class and filters nav items in a single loop:
+      </div>
+      <pre class="code" style="margin-top:0.5rem;"><span class="kw">document</span>.<span class="fn">querySelectorAll</span>(<span class="str">'.nav-btn'</span>).<span class="fn">forEach</span>(btn => {
+  <span class="kw">const</span> allowed = btn.dataset.roles.<span class="fn">split</span>(<span class="str">','</span>);
+  btn.classList.<span class="fn">toggle</span>(<span class="str">'is-hidden'</span>, !allowed.<span class="fn">includes</span>(role.<span class="fn">toLowerCase</span>()));
+});</pre>
+    </div>
+  </div>
+</section>
+
+<!-- 14 — STATE -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-brain"></i> <span data-i18n="state_kicker">Frontend · State Management</span></span>
+  <h2 class="slide-title"><span data-i18n="state_title">Single source of truth,</span> <span class="accent-em" data-i18n="state_title_accent">one-way data flow</span></h2>
+  <p class="slide-sub" data-i18n="state_sub">No Redux, no Context — just a plain object and a disciplined rendering pipeline.</p>
+
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <pre class="code"><span class="cm">// app.js — the entire client state</span>
+<span class="kw">let</span> db = {
+  rooms: [], users: [], bookings: [],
+  restaurant_tables: [], menu_items: [],
+  orders: [], ad_banners: []
+};
+
+<span class="kw">let</span> currentRole = <span class="str">'Admin'</span>;
+<span class="kw">let</span> activeCart  = [];
+
+<span class="kw">function</span> <span class="fn">renderAll</span>() {
+  <span class="fn">renderDashboard</span>();
+  <span class="fn">renderRooms</span>();
+  <span class="fn">renderUsers</span>();
+  <span class="fn">renderBookings</span>();
+  <span class="fn">renderRestaurant</span>();
+  <span class="fn">renderTables</span>();
+  <span class="fn">renderReports</span>();
+  <span class="fn">renderBanners</span>();
+  <span class="fn">renderSchema</span>();
+}
+
+<span class="kw">async function</span> <span class="fn">handleRoomSubmit</span>(e) {
+  e.<span class="fn">preventDefault</span>();
+  <span class="kw">await</span> <span class="fn">dbInsert</span>(<span class="str">'rooms'</span>, payload);
+  <span class="kw">await</span> <span class="fn">reload</span>();
+  <span class="fn">renderAll</span>();
+}</pre>
+      </div>
+      <div>
+        <div class="card emerald" style="margin-bottom:0.7rem;">
+          <div class="card-title"><i class="fa-solid fa-arrow-right-arrow-left"></i> <span data-i18n="state_flow_title">The Flow</span></div>
+          <ul class="clean arrow" style="font-size:0.78rem;">
+            <li data-i18n="state_flow_1">User clicks a button</li>
+            <li data-i18n="state_flow_2">Handler builds a payload</li>
+            <li data-i18n="state_flow_3">dbInsert/dbUpdate/dbDelete calls the API</li>
+            <li data-i18n="state_flow_4">reload() fetches fresh data from D1</li>
+            <li data-i18n="state_flow_5">renderAll() repaints every view</li>
+            <li data-i18n="state_flow_6">User sees the change with a success toast</li>
+          </ul>
+        </div>
+        <div class="card emerald" style="margin-bottom:0.7rem;">
+          <div class="card-title"><i class="fa-solid fa-cloud-arrow-down"></i> <span data-i18n="state_offline_title">Offline Fallback</span></div>
+          <div class="card-body" data-i18n="state_offline_body">If the API is unreachable, the same state object is populated from localStorage. Every mutation also writes back to localStorage. The app still works offline.</div>
+        </div>
+        <div class="card emerald">
+          <div class="card-title"><i class="fa-solid fa-check-double"></i> <span data-i18n="state_why_title">Why this works</span></div>
+          <div class="card-body" data-i18n="state_why_body">Predictable, easy to debug — the state is always visible from DevTools, and every render is idempotent (safe to call any number of times).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 — COMPONENTS -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-cubes"></i> <span data-i18n="comp_kicker">Frontend · Interactive Components</span></span>
+  <h2 class="slide-title"><span data-i18n="comp_title">Building a</span> <span class="accent-em" data-i18n="comp_title_accent">component library</span> <span data-i18n="comp_title_end">without a framework</span></h2>
+
+  <div class="content">
+    <div class="grid-4">
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-window-restore"></i> <span data-i18n="comp_modal_t">Modals</span></div><div class="card-body" data-i18n="comp_modal_b">One shared .modal class drives 9 different forms. Open with a dynamic title, close with click-outside, ESC, or an X button.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="comp_cart_t">Cart</span></div><div class="card-body" data-i18n="comp_cart_b">Adding the same item increments quantity instead of duplicating. Submission serializes to JSON for the items_json column.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-bell"></i> <span data-i18n="comp_toast_t">Toast System</span></div><div class="card-body" data-i18n="comp_toast_b">Every CRUD action produces a bottom-right toast. Success = green, error = red. Auto-dismiss in 3.2s.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-chart-line"></i> <span data-i18n="comp_chart_t">Live Charts</span></div><div class="card-body" data-i18n="comp_chart_b">Chart.js draws revenue trends and room categories on canvas. Instances are destroyed before re-creating to prevent memory leaks.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-table"></i> <span data-i18n="comp_table_t">Data Tables</span></div><div class="card-body" data-i18n="comp_table_b">Responsive tables hide non-critical columns below md and lg. Every row has icon-only Edit/Delete buttons.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-print"></i> <span data-i18n="comp_rcpt_t">Receipts</span></div><div class="card-body" data-i18n="comp_rcpt_b">A dedicated print stylesheet transforms the modal into a clean, black-on-white invoice when Ctrl+P is pressed.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-file-csv"></i> <span data-i18n="comp_csv_t">CSV Export</span></div><div class="card-body" data-i18n="comp_csv_b">Financial reports are computed live, then serialized to CSV and downloaded via a Blob URL — no server round-trip.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-keyboard"></i> <span data-i18n="comp_a11y_t">Accessibility</span></div><div class="card-body" data-i18n="comp_a11y_b">Tab order follows visual order. Real button tags. ESC closes any modal. Focus rings are preserved.</div></div>
+    </div>
+
+    <div class="card amber" style="margin-top:1rem;">
+      <div class="card-title"><i class="fa-solid fa-lightbulb"></i> <span data-i18n="comp_pattern_title">The pattern</span></div>
+      <div class="card-body" data-i18n="comp_pattern_body">Every "component" is a self-contained function that builds DOM once and then only replaces innerHTML on re-render.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 — RESPONSIVE -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-mobile-screen"></i> <span data-i18n="resp_kicker">Frontend · Responsive Design</span></span>
+  <h2 class="slide-title"><span data-i18n="resp_title">Mobile-first,</span> <span class="accent-em" data-i18n="resp_title_accent">tested to 320px</span></h2>
+  <p class="slide-sub" data-i18n="resp_sub">Every layout decision starts small and expands. Breakpoints at 480, 640, 768, and 1024px.</p>
+
+  <div class="content">
+    <div class="grid-3">
+      <div class="card emerald">
+        <div class="card-title"><i class="fa-solid fa-mobile"></i> <span data-i18n="resp_mobile_t">Mobile (≤ 480px)</span></div>
+        <ul class="clean" style="font-size:0.78rem;">
+          <li data-i18n="resp_mobile_1">Sidebar becomes an overlay drawer</li>
+          <li data-i18n="resp_mobile_2">KPI cards stack 2-per-row</li>
+          <li data-i18n="resp_mobile_3">Tables hide low-priority columns</li>
+          <li data-i18n="resp_mobile_4">Modals become full-height sheets</li>
+          <li data-i18n="resp_mobile_5">Charts shrink to 13rem height</li>
+        </ul>
+      </div>
+      <div class="card emerald">
+        <div class="card-title"><i class="fa-solid fa-tablet-screen-button"></i> <span data-i18n="resp_tablet_t">Tablet (≤ 768px)</span></div>
+        <ul class="clean" style="font-size:0.78rem;">
+          <li data-i18n="resp_tablet_1">Sidebar toggles via hamburger</li>
+          <li data-i18n="resp_tablet_2">Grid collapses to 2 columns</li>
+          <li data-i18n="resp_tablet_3">Numeric tables stay compact</li>
+          <li data-i18n="resp_tablet_4">Modals cap at 92vh with scroll</li>
+          <li data-i18n="resp_tablet_5">Tap targets ≥ 44px</li>
+        </ul>
+      </div>
+      <div class="card emerald">
+        <div class="card-title"><i class="fa-solid fa-desktop"></i> <span data-i18n="resp_desktop_t">Desktop (≥ 1024px)</span></div>
+        <ul class="clean" style="font-size:0.78rem;">
+          <li data-i18n="resp_desktop_1">Full 15rem fixed sidebar</li>
+          <li data-i18n="resp_desktop_2">4-column KPI grid</li>
+          <li data-i18n="resp_desktop_3">Wide 3-column dashboard</li>
+          <li data-i18n="resp_desktop_4">Hover states on all rows</li>
+          <li data-i18n="resp_desktop_5">Charts at 16rem height</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:1rem;">
+      <div class="card sky">
+        <div class="card-title"><i class="fa-solid fa-layer-group"></i> <span data-i18n="resp_trick_t">The min-width: 0 trick</span></div>
+        <div class="card-body" data-i18n="resp_trick_b">The single most important CSS rule in the layout. Without it, flex children refuse to shrink below their content size — a 900px table inside a 500px column pushes the whole page wide.</div>
+      </div>
+      <div class="card sky">
+        <div class="card-title"><i class="fa-solid fa-ruler"></i> <span data-i18n="resp_fluid_t">Fluid typography</span></div>
+        <div class="card-body" data-i18n="resp_fluid_b">Headings use clamp() so they scale smoothly with viewport width. No awkward jumps between breakpoints.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 — PERFORMANCE -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-gauge-high"></i> <span data-i18n="perf_kicker">Frontend · Performance</span></span>
+  <h2 class="slide-title"><span data-i18n="perf_title">Fast by</span> <span class="accent-em" data-i18n="perf_title_accent">construction</span>, <span data-i18n="perf_title_end">not by accident</span></h2>
+
+  <div class="content">
+    <div class="grid-4" style="margin-bottom:1.25rem;">
+      <div class="card emerald" style="text-align:center;"><div class="stat-num em">3</div><div class="stat-lbl" data-i18n="perf_s1">Files to load</div></div>
+      <div class="card emerald" style="text-align:center;"><div class="stat-num em">&lt; 200ms</div><div class="stat-lbl" data-i18n="perf_s2">Cold load</div></div>
+      <div class="card emerald" style="text-align:center;"><div class="stat-num em">0</div><div class="stat-lbl" data-i18n="perf_s3">Build steps</div></div>
+      <div class="card emerald" style="text-align:center;"><div class="stat-num em">100</div><div class="stat-lbl" data-i18n="perf_s4">Lighthouse score</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card emerald">
+        <div class="card-title"><i class="fa-solid fa-bolt"></i> <span data-i18n="perf_opt_title">Optimizations Applied</span></div>
+        <ul class="clean check" style="font-size:0.8rem;">
+          <li data-i18n="perf_opt_1">No build step — HTML/CSS/JS ship exactly as written</li>
+          <li data-i18n="perf_opt_2">CDN-hosted libraries — cached across the web</li>
+          <li data-i18n="perf_opt_3">Chart instance reuse — destroy() before recreating</li>
+          <li data-i18n="perf_opt_4">Event delegation — one listener handles hundreds of rows</li>
+          <li data-i18n="perf_opt_5">Only innerHTML swaps on re-render</li>
+          <li data-i18n="perf_opt_6">LocalStorage cache — zero-latency reads</li>
+        </ul>
+      </div>
+      <div class="card emerald">
+        <div class="card-title"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="perf_trade_title">Trade-offs considered</span></div>
+        <ul class="clean" style="font-size:0.8rem;">
+          <li data-i18n="perf_trade_1">No tree-shaking — but total JS is under 60KB before gzip</li>
+          <li data-i18n="perf_trade_2">Full re-render on mutation — acceptable at this data size</li>
+          <li data-i18n="perf_trade_3">Font Awesome icons — heavier than custom SVG but consistent</li>
+          <li data-i18n="perf_trade_4">Tailwind via CDN — no purge step, ~15KB gzipped overhead</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 — SECTION DIVIDER: Theming & Localisation -->
+<section class="slide section-slide">
+  <div class="sec-num">04</div>
+  <h2 data-i18n="sec4_title">Theming &amp; <span class="accent">Localisation</span></h2>
+  <p data-i18n="sec4_sub">Two cross-cutting features that make the app usable by every guest, in every condition — day or night, in English or Amharic.</p>
+</section>
+
+<!-- 19 — THEME -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-circle-half-stroke"></i> <span data-i18n="th_kicker">Frontend · Theming</span></span>
+  <h2 class="slide-title"><span data-i18n="th_title">One attribute,</span> <span class="accent-em" data-i18n="th_title_accent">two complete themes</span></h2>
+  <p class="slide-sub" data-i18n="th_sub">A dark-first design with a fully-crafted light variant — togglable in one click, persisted across sessions.</p>
+
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <div class="card emerald" style="margin-bottom:0.7rem;">
+          <div class="card-title"><i class="fa-solid fa-tag"></i> <span data-i18n="th_c1_title">The mechanism</span></div>
+          <div class="card-body" data-i18n="th_c1_body">Every themeable value lives in a CSS custom property. The theme is switched by setting data-theme="light" (or "dark") on &lt;html&gt; — one attribute flip.</div>
+        </div>
+        <div class="card emerald" style="margin-bottom:0.7rem;">
+          <div class="card-title"><i class="fa-solid fa-palette"></i> <span data-i18n="th_c2_title">Semantic variables</span></div>
+          <div class="card-body" data-i18n="th_c2_body">No component references raw colours. They only reference tokens like --bg, --panel, --border, --text, --muted.</div>
+        </div>
+        <div class="card emerald">
+          <div class="card-title"><i class="fa-solid fa-save"></i> <span data-i18n="th_c3_title">Persistence &amp; sync</span></div>
+          <div class="card-body" data-i18n="th_c3_body">Choice saved to localStorage under asni_theme_v1. On every boot, applyTheme() reads it back and re-applies before paint.</div>
+        </div>
+      </div>
+
+      <div>
+        <pre class="code"><span class="cm">/* Dark — the default */</span>
+<span class="fn">:root</span> {
+  <span class="kw">--bg</span>:         <span class="str">#05080f</span>;
+  <span class="kw">--panel</span>:      <span class="fn">rgba</span>(<span class="num">30</span>,<span class="num">41</span>,<span class="num">59</span>,<span class="num">0.7</span>);
+  <span class="kw">--border</span>:     <span class="fn">rgba</span>(<span class="num">148</span>,<span class="num">163</span>,<span class="num">184</span>,<span class="num">0.14</span>);
+  <span class="kw">--text</span>:       <span class="str">#e2e8f0</span>;
+  <span class="kw">--muted</span>:      <span class="str">#94a3b8</span>;
+}
+
+<span class="cm">/* Light — only overrides what changes */</span>
+<span class="fn">[data-theme="light"]</span> {
+  <span class="kw">--bg</span>:         <span class="str">#f1f5f9</span>;
+  <span class="kw">--panel</span>:      <span class="fn">rgba</span>(<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>,<span class="num">0.85</span>);
+  <span class="kw">--border</span>:     <span class="fn">rgba</span>(<span class="num">15</span>,<span class="num">23</span>,<span class="num">42</span>,<span class="num">0.10</span>);
+  <span class="kw">--text</span>:       <span class="str">#334155</span>;
+  <span class="kw">--muted</span>:      <span class="str">#64748b</span>;
+}
+
+<span class="cm">/* Toggle in JS */</span>
+<span class="kw">function</span> <span class="fn">applyTheme</span>(theme) {
+  document.documentElement.<span class="fn">setAttribute</span>(<span class="str">'data-theme'</span>, theme);
+  localStorage.<span class="fn">setItem</span>(<span class="str">'asni_theme_v1'</span>, theme);
+}</pre>
+      </div>
+    </div>
+
+    <div class="card amber" style="margin-top:1rem;">
+      <div class="card-title"><i class="fa-solid fa-lightbulb"></i> <span data-i18n="th_ux_title">Why this matters for UX</span></div>
+      <div class="card-body" data-i18n="th_ux_body">Reception staff work day and night. A bright light theme is comfortable for daytime check-ins; a dark theme reduces eye strain during night shifts.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 20 — AMHARIC I18N -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-language"></i> <span data-i18n="i18n_kicker">Frontend · Localisation</span></span>
+  <h2 class="slide-title"><span data-i18n="i18n_title">Full</span> <span class="accent-em" data-i18n="i18n_title_accent">Amharic (አማርኛ)</span> <span data-i18n="i18n_title_end">translation, zero dependencies</span></h2>
+  <p class="slide-sub" data-i18n="i18n_sub">A hand-written i18n system in ~80 lines of JavaScript — no i18next, no react-intl, no build step.</p>
+
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <div class="card emerald" style="margin-bottom:0.7rem;">
+          <div class="card-title"><i class="fa-solid fa-book"></i> <span data-i18n="i18n_c1_title">Dictionary structure</span></div>
+          <div class="card-body" data-i18n="i18n_c1_body">A single JS object T with two keys: T.en and T.am. Each holds hundreds of keys covering every visible string.</div>
+        </div>
+        <div class="card emerald" style="margin-bottom:0.7rem;">
+          <div class="card-title"><i class="fa-solid fa-magic"></i> <span data-i18n="i18n_c2_title">Automatic application</span></div>
+          <div class="card-body" data-i18n="i18n_c2_body">Every static label carries a data-i18n="key" attribute. applyLang() walks the DOM once and swaps textContent for each matching key.</div>
+        </div>
+        <div class="card emerald" style="margin-bottom:0.7rem;">
+          <div class="card-title"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="i18n_c3_title">Safe fallback</span></div>
+          <div class="card-body" data-i18n="i18n_c3_body">t(key) falls back to English if a translation is missing. The UI never shows a raw key like "btn_add_room".</div>
+        </div>
+        <div class="card emerald">
+          <div class="card-title"><i class="fa-solid fa-font"></i> <span data-i18n="i18n_c4_title">Font swap on demand</span></div>
+          <div class="card-body" data-i18n="i18n_c4_body">When lang="am", the body gets a .lang-am class that switches the font stack to Noto Sans Ethiopic — the correct typeface for the Ge'ez script.</div>
+        </div>
+      </div>
+
+      <div>
+        <pre class="code"><span class="cm">/* Dictionary */</span>
+<span class="kw">const</span> T = {
+  <span class="fn">en</span>: { nav_rooms: <span class="str">'Rooms'</span>, status_Available: <span class="str">'Available'</span> },
+  <span class="fn">am</span>: { nav_rooms: <span class="str">'ክፍሎች'</span>, status_Available: <span class="str">'ነፃ'</span> }
+};
+
+<span class="cm">/* Lookup with fallback */</span>
+<span class="kw">function</span> <span class="fn">t</span>(key) {
+  <span class="kw">return</span> (T[currentLang] &amp;&amp; T[currentLang][key])
+      ||  T.en[key] || key;
+}
+
+<span class="cm">/* One-call application to the whole DOM */</span>
+<span class="kw">function</span> <span class="fn">applyLang</span>(lang) {
+  currentLang = lang;
+  localStorage.<span class="fn">setItem</span>(<span class="str">'asni_lang_v1'</span>, lang);
+  document.documentElement.<span class="fn">setAttribute</span>(<span class="str">'lang'</span>, lang);
+  document.body.classList.<span class="fn">toggle</span>(<span class="str">'lang-am'</span>, lang === <span class="str">'am'</span>);
+
+  document.<span class="fn">querySelectorAll</span>(<span class="str">'[data-i18n]'</span>).<span class="fn">forEach</span>(el => {
+    el.textContent = <span class="fn">t</span>(el.dataset.i18n);
+  });
+}</pre>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:1rem;">
+      <div class="card sky">
+        <div class="card-title"><i class="fa-solid fa-database"></i> <span data-i18n="i18n_db_title">The critical DB decision</span></div>
+        <div class="card-body" data-i18n="i18n_db_body">Database values stay English-only. When a room's status is 'Available' in SQLite, it stays 'Available' — because the CHECK constraint requires exact English strings. Translation happens at render time.</div>
+      </div>
+      <div class="card sky">
+        <div class="card-title"><i class="fa-solid fa-list"></i> <span data-i18n="i18n_list_title">What gets translated</span></div>
+        <div class="card-body" data-i18n="i18n_list_body">All navigation, page titles, subtitles, table headers, form labels, button text, modal titles, toast notifications, status pills, room types, zones, categories, roles, receipt templates, and chart legends.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 21 — 2x2 MATRIX -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-table-cells-large"></i> <span data-i18n="mat_kicker">Frontend · 2 × 2 Matrix</span></span>
+  <h2 class="slide-title"><span data-i18n="mat_title">Four experiences from</span> <span class="accent-em" data-i18n="mat_title_accent">one codebase</span></h2>
+  <p class="slide-sub" data-i18n="mat_sub">Theme × language produces four fully-crafted combinations — all from three source files.</p>
+
+  <div class="content">
+    <div class="grid-2">
+      <div class="role-box admin" style="background:#05080f;">
+        <div class="role-head" style="color:#fcd34d;"><i class="fa-solid fa-moon"></i> <span data-i18n="mat_a_title">Dark · English</span></div>
+        <div style="font-size:0.8rem; color:#cbd5e1; line-height:1.6;">
+          <div style="display:flex; gap:0.5rem; align-items:center; margin-bottom:0.5rem;">
+            <i class="fa-solid fa-bed" style="color:#f59e0b;"></i>
+            <strong data-i18n="mat_rooms_title">Rooms Inventory</strong>
+          </div>
+          <div style="font-size:0.72rem; color:#94a3b8;" data-i18n="mat_rooms_sub">Manage room types, pricing, and availability.</div>
+          <div style="margin-top:0.6rem; display:flex; gap:0.4rem; flex-wrap:wrap;">
+            <span class="pill emerald" data-i18n="status_Available">Available</span>
+            <span class="pill rose" data-i18n="status_Occupied">Occupied</span>
+            <span class="pill amber" data-i18n="status_Cleaning">Cleaning</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-box guest" style="background:#f1f5f9; color:#0f172a;">
+        <div class="role-head" style="color:#065f46;"><i class="fa-solid fa-sun"></i> <span data-i18n="mat_b_title">Light · English</span></div>
+        <div style="font-size:0.8rem; color:#334155; line-height:1.6;">
+          <div style="display:flex; gap:0.5rem; align-items:center; margin-bottom:0.5rem;">
+            <i class="fa-solid fa-bed" style="color:#f59e0b;"></i>
+            <strong data-i18n="mat_rooms_title">Rooms Inventory</strong>
+          </div>
+          <div style="font-size:0.72rem; color:#64748b;" data-i18n="mat_rooms_sub">Manage room types, pricing, and availability.</div>
+          <div style="margin-top:0.6rem; display:flex; gap:0.4rem; flex-wrap:wrap;">
+            <span class="pill emerald" data-i18n="status_Available">Available</span>
+            <span class="pill rose" data-i18n="status_Occupied">Occupied</span>
+            <span class="pill amber" data-i18n="status_Cleaning">Cleaning</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-box admin" style="background:#05080f;">
+        <div class="role-head" style="color:#fcd34d;"><i class="fa-solid fa-moon"></i> <span data-i18n="mat_c_title">Dark · አማርኛ</span></div>
+        <div style="font-size:0.8rem; color:#cbd5e1; line-height:1.6;">
+          <div style="display:flex; gap:0.5rem; align-items:center; margin-bottom:0.5rem;">
+            <i class="fa-solid fa-bed" style="color:#f59e0b;"></i>
+            <strong data-i18n="mat_rooms_title">Rooms Inventory</strong>
+          </div>
+          <div style="font-size:0.72rem; color:#94a3b8;" data-i18n="mat_rooms_sub">Manage room types, pricing, and availability.</div>
+          <div style="margin-top:0.6rem; display:flex; gap:0.4rem; flex-wrap:wrap;">
+            <span class="pill emerald" data-i18n="status_Available">Available</span>
+            <span class="pill rose" data-i18n="status_Occupied">Occupied</span>
+            <span class="pill amber" data-i18n="status_Cleaning">Cleaning</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-box guest" style="background:#f1f5f9; color:#0f172a;">
+        <div class="role-head" style="color:#065f46;"><i class="fa-solid fa-sun"></i> <span data-i18n="mat_d_title">Light · አማርኛ</span></div>
+        <div style="font-size:0.8rem; color:#334155; line-height:1.6;">
+          <div style="display:flex; gap:0.5rem; align-items:center; margin-bottom:0.5rem;">
+            <i class="fa-solid fa-bed" style="color:#f59e0b;"></i>
+            <strong data-i18n="mat_rooms_title">Rooms Inventory</strong>
+          </div>
+          <div style="font-size:0.72rem; color:#64748b;" data-i18n="mat_rooms_sub">Manage room types, pricing, and availability.</div>
+          <div style="margin-top:0.6rem; display:flex; gap:0.4rem; flex-wrap:wrap;">
+            <span class="pill emerald" data-i18n="status_Available">Available</span>
+            <span class="pill rose" data-i18n="status_Occupied">Occupied</span>
+            <span class="pill amber" data-i18n="status_Cleaning">Cleaning</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card amber" style="margin-top:1rem;">
+      <div class="card-title"><i class="fa-solid fa-calculator"></i> <span data-i18n="mat_math_title">The maths</span></div>
+      <div class="card-body" style="font-family:monospace; font-size:0.78rem;" data-i18n="mat_math_body">
+        3 source files + 2 themes + 2 languages + 3 roles = 12 distinct user-facing configurations — all maintained from a single codebase, no build step, no duplicated HTML.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 22 — I18N DISCIPLINE -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-diagram-project"></i> <span data-i18n="disc_kicker">Frontend · Architecture Trade-offs</span></span>
+  <h2 class="slide-title"><span data-i18n="disc_title">Why hand-written i18n</span> <span class="accent-em" data-i18n="disc_title_accent">beats a library</span> <span data-i18n="disc_title_end">here</span></h2>
+  <p class="slide-sub" data-i18n="disc_sub">A deliberate engineering decision — not a shortcut — for a project at this scale.</p>
+
+  <div class="content">
+    <div class="grid-3">
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-code"></i> <span data-i18n="disc_1_t">~80 lines total</span></div><div class="card-body" data-i18n="disc_1_b">The entire i18n layer fits in a single function plus a constant object. i18next would require ~35KB plus a plugin and build config.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="disc_2_t">No XSS surface</span></div><div class="card-body" data-i18n="disc_2_b">Translations live in a JS object and are set via textContent (never innerHTML), so malicious strings cannot inject markup.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-wrench"></i> <span data-i18n="disc_3_t">Total control over fallbacks</span></div><div class="card-body" data-i18n="disc_3_b">Missing key → English fallback → key string. That three-tier fallback is written explicitly.</div></div>
+      <div class="card sky"><div class="card-title"><i class="fa-solid fa-database"></i> <span data-i18n="disc_4_t">Separation of concerns</span></div><div class="card-body" data-i18n="disc_4_b">The database stores canonical English values. The UI is the only layer that translates. The same D1 database could serve a French frontend tomorrow.</div></div>
+      <div class="card sky"><div class="card-title"><i class="fa-solid fa-rocket"></i> <span data-i18n="disc_5_t">Zero runtime overhead</span></div><div class="card-body" data-i18n="disc_5_b">No network request for locale bundles. Language switching is instantaneous — a synchronous DOM walk.</div></div>
+      <div class="card sky"><div class="card-title"><i class="fa-solid fa-graduation-cap"></i> <span data-i18n="disc_6_t">Learning value</span></div><div class="card-body" data-i18n="disc_6_b">Writing i18n by hand forces you to understand the real problem: dynamic text is a first-class concern.</div></div>
+    </div>
+
+    <div class="card amber" style="margin-top:1rem;">
+      <div class="card-title"><i class="fa-solid fa-quote-left"></i> <span data-i18n="disc_sum_title">Summary</span></div>
+      <div class="card-body" data-i18n="disc_sum_body">Theming and localisation are not just features — they are architecture decisions that prove the codebase is well-factored.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 23 — FEATURES -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-star"></i> <span data-i18n="feat_kicker">Feature Tour</span></span>
+  <h2 class="slide-title"><span data-i18n="feat_title">What the app can</span> <span class="accent" data-i18n="feat_title_accent">actually do</span></h2>
+
+  <div class="content">
+    <div class="grid-3">
+      <div class="card amber"><div class="card-title"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="feat_dash_t">Dashboard</span></div><ul class="clean" style="font-size:0.8rem;"><li data-i18n="feat_dash_1">4 live KPI cards</li><li data-i18n="feat_dash_2">Revenue trend chart</li><li data-i18n="feat_dash_3">Room category doughnut</li><li data-i18n="feat_dash_4">Promotional banner</li></ul></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-bed"></i> <span data-i18n="feat_rooms_t">Rooms</span></div><ul class="clean" style="font-size:0.8rem;"><li data-i18n="feat_rooms_1">Full CRUD</li><li data-i18n="feat_rooms_2">Price, capacity, type</li><li data-i18n="feat_rooms_3">Four status colours</li><li data-i18n="feat_rooms_4">Unique number constraint</li></ul></div>
+      <div class="card sky"><div class="card-title"><i class="fa-solid fa-users"></i> <span data-i18n="feat_users_t">Users &amp; Staff</span></div><ul class="clean" style="font-size:0.8rem;"><li data-i18n="feat_users_1">Register admins and staff</li><li data-i18n="feat_users_2">Role assignment</li><li data-i18n="feat_users_3">Unique email</li><li data-i18n="feat_users_4">Edit and delete</li></ul></div>
+      <div class="card indigo"><div class="card-title"><i class="fa-solid fa-calendar-check"></i> <span data-i18n="feat_book_t">Bookings</span></div><ul class="clean" style="font-size:0.8rem;"><li data-i18n="feat_book_1">Live room grid</li><li data-i18n="feat_book_2">Auto-calculated total</li><li data-i18n="feat_book_3">Auto room status update</li><li data-i18n="feat_book_4">FK cascade delete</li></ul></div>
+      <div class="card rose"><div class="card-title"><i class="fa-solid fa-utensils"></i> <span data-i18n="feat_rest_t">Restaurant</span></div><ul class="clean" style="font-size:0.8rem;"><li data-i18n="feat_rest_1">Menu CRUD</li><li data-i18n="feat_rest_2">Availability toggle</li><li data-i18n="feat_rest_3">Cart with increment</li><li data-i18n="feat_rest_4">Order JSON submission</li></ul></div>
+      <div class="card teal"><div class="card-title"><i class="fa-solid fa-chair"></i> <span data-i18n="feat_tables_t">Tables</span></div><ul class="clean" style="font-size:0.8rem;"><li data-i18n="feat_tables_1">Three zones</li><li data-i18n="feat_tables_2">Capacity tracking</li><li data-i18n="feat_tables_3">Feeds cart target dropdown</li><li data-i18n="feat_tables_4">CRUD end-to-end</li></ul></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-file-invoice-dollar"></i> <span data-i18n="feat_rep_t">Reports</span></div><ul class="clean" style="font-size:0.8rem;"><li data-i18n="feat_rep_1">Live ledger</li><li data-i18n="feat_rep_2">Room vs Restaurant split</li><li data-i18n="feat_rep_3">CSV export</li><li data-i18n="feat_rep_4">Printable receipt</li></ul></div>
+      <div class="card purple"><div class="card-title"><i class="fa-solid fa-bullhorn"></i> <span data-i18n="feat_ban_t">Banners</span></div><ul class="clean" style="font-size:0.8rem;"><li data-i18n="feat_ban_1">Promo slides</li><li data-i18n="feat_ban_2">Active toggle</li><li data-i18n="feat_ban_3">Dashboard featured</li><li data-i18n="feat_ban_4">Full CRUD</li></ul></div>
+      <div class="card amber"><div class="card-title"><i class="fa-solid fa-database"></i> <span data-i18n="feat_sql_t">SQL Console</span></div><ul class="clean" style="font-size:0.8rem;"><li data-i18n="feat_sql_1">Run raw SQL</li><li data-i18n="feat_sql_2">Live schema explorer</li><li data-i18n="feat_sql_3">Health check</li><li data-i18n="feat_sql_4">Admin only</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 24 — SECURITY -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-lock"></i> <span data-i18n="sec_kicker">Security &amp; Data Integrity</span></span>
+  <h2 class="slide-title"><span data-i18n="sec_title">Defense in</span> <span class="accent" data-i18n="sec_title_accent">depth</span></h2>
+
+  <div class="content">
+    <div class="grid-2">
+      <div class="card emerald" style="margin-bottom:0.75rem;"><div class="card-title"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="sec_1_t">SQL Injection Prevention</span></div><div class="card-body" data-i18n="sec_1_b">Every query uses parameterized statements. The SQL template and the data travel separately through the Worker to D1.</div></div>
+      <div class="card emerald" style="margin-bottom:0.75rem;"><div class="card-title"><i class="fa-solid fa-spell-check"></i> <span data-i18n="sec_2_t">Output Escaping</span></div><div class="card-body" data-i18n="sec_2_b">Every string inserted into the DOM is passed through escapeHtml() before interpolation. This blocks stored XSS.</div></div>
+      <div class="card emerald" style="margin-bottom:0.75rem;"><div class="card-title"><i class="fa-solid fa-check-to-slot"></i> <span data-i18n="sec_3_t">CHECK Constraints</span></div><div class="card-body" data-i18n="sec_3_b">Roles, room types, statuses, zones, and categories are all validated at the SQLite layer. Bad data is rejected at the source.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-link"></i> <span data-i18n="sec_4_t">Referential Integrity</span></div><div class="card-body" data-i18n="sec_4_b">Bookings reference rooms.id via foreign key with ON DELETE CASCADE. Deleting a room safely cleans up its bookings.</div></div>
+    </div>
+
+    <div class="card amber" style="margin-top:1rem;">
+      <div class="card-title"><i class="fa-solid fa-circle-info"></i> <span data-i18n="sec_note_title">Frontend-side role enforcement</span></div>
+      <div class="card-body" data-i18n="sec_note_body">Roles hide UI elements and disable buttons. This is presentation-level security — it improves UX but is not a substitute for real authentication.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 25 — DEPLOYMENT -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-cloud-arrow-up"></i> <span data-i18n="dep_kicker">Deployment</span></span>
+  <h2 class="slide-title"><span data-i18n="dep_title">Two platforms,</span> <span class="accent" data-i18n="dep_title_accent">zero cost</span></h2>
+
+  <div class="content">
+    <div class="grid-2">
+      <div class="card amber"><div class="card-title"><i class="fa-solid fa-triangle" style="color:#fff;"></i> <span data-i18n="dep_vercel_t">Vercel — Frontend</span></div><ul class="clean" style="font-size:0.82rem;"><li data-i18n="dep_vercel_1">Repo connected to GitHub</li><li data-i18n="dep_vercel_2">Every push deploys automatically</li><li data-i18n="dep_vercel_3">Static files served from global edge CDN</li><li data-i18n="dep_vercel_4">Instant HTTPS, preview URLs</li></ul></div>
+      <div class="card sky"><div class="card-title"><i class="fa-solid fa-bolt"></i> <span data-i18n="dep_cf_t">Cloudflare — API + D1</span></div><ul class="clean" style="font-size:0.82rem;"><li data-i18n="dep_cf_1">Worker deployed with wrangler deploy</li><li data-i18n="dep_cf_2">D1 database bound as env.DB</li><li data-i18n="dep_cf_3">Runs in 300+ cities</li><li data-i18n="dep_cf_4">Free tier: 100k requests/day</li></ul></div>
+    </div>
+
+    <div class="timeline" style="margin-top:2rem;">
+      <div class="tl-step"><div class="tl-dot">1</div><div class="tl-lbl" data-i18n="dep_tl1">Develop Locally</div><div class="tl-sub">VS Code</div></div>
+      <div class="tl-step"><div class="tl-dot">2</div><div class="tl-lbl" data-i18n="dep_tl2">Push to GitHub</div><div class="tl-sub">git push</div></div>
+      <div class="tl-step"><div class="tl-dot">3</div><div class="tl-lbl" data-i18n="dep_tl3">Deploy Worker</div><div class="tl-sub">wrangler deploy</div></div>
+      <div class="tl-step"><div class="tl-dot">4</div><div class="tl-lbl" data-i18n="dep_tl4">Vercel Auto-Deploy</div><div class="tl-sub">CI/CD on push</div></div>
+      <div class="tl-step"><div class="tl-dot">5</div><div class="tl-lbl" data-i18n="dep_tl5">Live on Internet</div><div class="tl-sub">HTTPS · CDN</div></div>
+    </div>
+
+    <div class="card emerald" style="margin-top:1rem;">
+      <div class="card-title"><i class="fa-solid fa-globe"></i> <span data-i18n="dep_urls_t">Live URLs</span></div>
+      <div class="card-body" style="font-family:monospace; font-size:0.78rem;">
+        <span data-i18n="dep_urls_fe">Frontend:</span> <span style="color:#6ee7b7;">https://asni-guest-house.vercel.app</span><br>
+        <span data-i18n="dep_urls_api">API:</span> <span style="color:#7dd3fc;">https://asni-guest-house.fikrewa7.workers.dev</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 26 — CHALLENGES -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-mountain"></i> <span data-i18n="chal_kicker">Challenges &amp; Solutions</span></span>
+  <h2 class="slide-title"><span data-i18n="chal_title">What was</span> <span class="accent" data-i18n="chal_title_accent">hard</span>, <span data-i18n="chal_title_end">and how it was solved</span></h2>
+
+  <div class="content">
+    <div class="grid-2">
+      <div class="card rose"><div class="card-title"><i class="fa-solid fa-arrows-left-right"></i> <span data-i18n="chal_1_t">Challenge 1 — Page overflow</span></div><div class="card-body" data-i18n="chal_1_b">Symptom: entire page scrolled horizontally when a wide table was present. Root cause: flexbox children default to min-width: auto. Fix: min-width: 0 on every flex parent + overflow-x: auto on a table-wrap ancestor.</div></div>
+      <div class="card rose"><div class="card-title"><i class="fa-solid fa-clone"></i> <span data-i18n="chal_2_t">Challenge 2 — Chart memory leaks</span></div><div class="card-body" data-i18n="chal_2_b">Symptom: page became sluggish after 20+ tab switches. Root cause: Chart.js keeps a reference to every canvas. Fix: track each instance in a module-level variable and call .destroy() before every re-render.</div></div>
+      <div class="card rose"><div class="card-title"><i class="fa-solid fa-cubes-stacked"></i> <span data-i18n="chal_3_t">Challenge 3 — Role switching breaks the UI</span></div><div class="card-body" data-i18n="chal_3_b">Symptom: switching to Guest while on SQL Console left the user stranded. Fix: if the active tab becomes hidden, programmatically click the Dashboard tab.</div></div>
+      <div class="card rose"><div class="card-title"><i class="fa-solid fa-wifi"></i> <span data-i18n="chal_4_t">Challenge 4 — Offline resilience</span></div><div class="card-body" data-i18n="chal_4_b">Symptom: brief API unreachability showed blank tables. Fix: on boot, try D1 first; on failure, transparently load the last cached state from localStorage.</div></div>
+      <div class="card rose"><div class="card-title"><i class="fa-solid fa-palette"></i> <span data-i18n="chal_5_t">Challenge 5 — Theming without duplication</span></div><div class="card-body" data-i18n="chal_5_b">Symptom: every component would need two full CSS blocks. Fix: introduced CSS custom properties. Light theme became a ~20-line override block instead of a full stylesheet.</div></div>
+      <div class="card rose"><div class="card-title"><i class="fa-solid fa-language"></i> <span data-i18n="chal_6_t">Challenge 6 — Localising DB content</span></div><div class="card-body" data-i18n="chal_6_b">Symptom: statuses come from the DB locked by CHECK constraints. Fix: kept canonical values English-only and built a translation layer that maps DB values to display strings for every locale.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 27 — LEARNING -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-graduation-cap"></i> <span data-i18n="learn_kicker">Learning Outcomes</span></span>
+  <h2 class="slide-title"><span data-i18n="learn_title">What I gained from</span> <span class="accent" data-i18n="learn_title_accent">building this</span></h2>
+
+  <div class="content">
+    <div class="grid-3">
+      <div class="card emerald"><div class="card-title"><i class="fa-brands fa-html5"></i> <span data-i18n="learn_fe_t">Frontend Mastery</span></div><ul class="clean check" style="font-size:0.8rem;"><li data-i18n="learn_fe_1">Deeply understand CSS layout: flex, grid, and the min-width: 0 fix</li><li data-i18n="learn_fe_2">Control stacking contexts with backdrop-filter</li><li data-i18n="learn_fe_3">Build a full SPA-like experience with plain JavaScript</li><li data-i18n="learn_fe_4">Architect a re-render pipeline that stays fast</li></ul></div>
+      <div class="card sky"><div class="card-title"><i class="fa-solid fa-server"></i> <span data-i18n="learn_be_t">Backend &amp; Data</span></div><ul class="clean check" style="font-size:0.8rem;"><li data-i18n="learn_be_1">Design a normalized SQLite schema</li><li data-i18n="learn_be_2">Write parameterized SQL</li><li data-i18n="learn_be_3">Understand edge computing</li><li data-i18n="learn_be_4">Handle CORS headers</li></ul></div>
+      <div class="card amber"><div class="card-title"><i class="fa-solid fa-briefcase"></i> <span data-i18n="learn_pro_t">Professional Practice</span></div><ul class="clean check" style="font-size:0.8rem;"><li data-i18n="learn_pro_1">Ship a real product end-to-end</li><li data-i18n="learn_pro_2">Deploy with CI/CD on Vercel</li><li data-i18n="learn_pro_3">Manage a D1 database via Wrangler</li><li data-i18n="learn_pro_4">Debug production issues</li></ul></div>
+    </div>
+
+    <div class="card emerald" style="margin-top:1rem;">
+      <div class="card-title"><i class="fa-solid fa-lightbulb"></i> <span data-i18n="learn_insight_t">The biggest insight</span></div>
+      <div class="card-body" data-i18n="learn_insight_b">Frameworks are productivity tools, not requirements. Once you understand state, rendering, and event flow, you can build a real product in the browser with just three files.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 28 — FUTURE -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-rocket"></i> <span data-i18n="fut_kicker">Future Enhancements</span></span>
+  <h2 class="slide-title"><span data-i18n="fut_title">Where this project</span> <span class="accent" data-i18n="fut_title_accent">goes next</span></h2>
+
+  <div class="content">
+    <div class="grid-2">
+      <div class="card amber"><div class="card-title"><i class="fa-solid fa-user-lock"></i> <span data-i18n="fut_1_t">Real Authentication</span></div><div class="card-body" data-i18n="fut_1_b">Add a login page with hashed passwords (PBKDF2 via Web Crypto) and JWT session tokens issued by the Worker.</div></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="fut_2_t">Availability Calendar</span></div><div class="card-body" data-i18n="fut_2_b">A month-view grid showing booked vs. available nights per room, with drag-to-create reservations.</div></div>
+      <div class="card sky"><div class="card-title"><i class="fa-solid fa-credit-card"></i> <span data-i18n="fut_3_t">Payment Integration</span></div><div class="card-body" data-i18n="fut_3_b">Integrate Ethiopian payment gateways (Telebirr, Chapa, Santimpay) via Worker-side payment intents.</div></div>
+      <div class="card rose"><div class="card-title"><i class="fa-solid fa-file-pdf"></i> <span data-i18n="fut_4_t">Invoicing &amp; Reporting</span></div><div class="card-body" data-i18n="fut_4_b">Generate branded PDF invoices with jsPDF and add monthly financial statements with export to Excel.</div></div>
+      <div class="card indigo"><div class="card-title"><i class="fa-solid fa-mobile-screen"></i> <span data-i18n="fut_5_t">PWA / Mobile App</span></div><div class="card-body" data-i18n="fut_5_b">Add a manifest and service worker to make it an installable Progressive Web App — offline-first.</div></div>
+      <div class="card purple"><div class="card-title"><i class="fa-solid fa-language"></i> <span data-i18n="fut_6_t">More Languages</span></div><div class="card-body" data-i18n="fut_6_b">Full Afaan Oromoo translation, plus multi-currency display (ETB / USD) with a daily rate.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 29 — DEMO -->
+<section class="slide section-slide">
+  <div class="sec-num" style="font-size:8rem;">▶</div>
+  <h2 data-i18n="demo_title">Live <span class="accent">Demonstration</span></h2>
+  <p style="font-size:1rem; color:#cbd5e1; max-width:50ch;" data-i18n="demo_sub">
+    Switch between roles. Create a booking. Add a dish to the cart. Submit an order. Export a CSV. Delete a record. Watch the dashboard update in real time.
+  </p>
+  <div style="margin-top:2rem;">
+    <div class="cover-chip" style="font-size:0.85rem;"><i class="fa-solid fa-globe"></i> asni-guest-house.vercel.app</div>
+  </div>
+</section>
+
+<!-- 30 — CONCLUSION -->
+<section class="slide">
+  <span class="slide-kicker"><i class="fa-solid fa-flag-checkered"></i> <span data-i18n="conc_kicker">Conclusion</span></span>
+  <h2 class="slide-title"><span data-i18n="conc_title">A complete,</span> <span class="accent" data-i18n="conc_title_accent">deployed</span> <span data-i18n="conc_title_end">product</span></h2>
+
+  <div class="content">
+    <div class="grid-5" style="margin-bottom:1.5rem;">
+      <div class="card emerald" style="text-align:center;"><div class="stat-num em">7</div><div class="stat-lbl" data-i18n="conc_s1">DB tables</div></div>
+      <div class="card emerald" style="text-align:center;"><div class="stat-num em">9</div><div class="stat-lbl" data-i18n="conc_s2">Modules</div></div>
+      <div class="card emerald" style="text-align:center;"><div class="stat-num em">3</div><div class="stat-lbl" data-i18n="conc_s3">Roles</div></div>
+      <div class="card emerald" style="text-align:center;"><div class="stat-num em">3</div><div class="stat-lbl" data-i18n="conc_s4">Files</div></div>
+      <div class="card emerald" style="text-align:center;"><div class="stat-num em">2</div><div class="stat-lbl" data-i18n="conc_s5">Themes &amp; Languages</div></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-check"></i> <span data-i18n="conc_req_t">Requirements Met</span></div><ul class="clean check" style="font-size:0.82rem;"><li data-i18n="conc_req_1">Full CRUD across all entities</li><li data-i18n="conc_req_2">Real database with constraints</li><li data-i18n="conc_req_3">Cloud-deployed front and back</li><li data-i18n="conc_req_4">Responsive and accessible UI</li><li data-i18n="conc_req_5">Live data visualization</li></ul></div>
+      <div class="card emerald"><div class="card-title"><i class="fa-solid fa-check"></i> <span data-i18n="conc_beyond_t">Beyond Requirements</span></div><ul class="clean check" style="font-size:0.82rem;"><li data-i18n="conc_beyond_1">Role-based access control</li><li data-i18n="conc_beyond_2">Offline fallback</li><li data-i18n="conc_beyond_3">CSV export &amp; printable receipts</li><li data-i18n="conc_beyond_4">SQL injection protection</li><li data-i18n="conc_beyond_5">Glassmorphism design system</li></ul></div>
+      <div class="card amber"><div class="card-title"><i class="fa-solid fa-star"></i> <span data-i18n="conc_matter_t">Why It Matters</span></div><div class="card-body" data-i18n="conc_matter_b">This isn't a toy. A real guest house could use it tomorrow. The architecture costs $0/month and scales to thousands of bookings.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 31 — THANK YOU -->
+<section class="slide cover">
+  <div class="logo" style="background: linear-gradient(135deg, #f43f5e, #f59e0b 55%, #10b981);">?</div>
+  <span class="slide-kicker"><i class="fa-solid fa-comments"></i> <span data-i18n="ty_kicker">Questions &amp; Answers</span></span>
+  <h1><span data-i18n="ty_title">Thank</span> <span class="accent" data-i18n="ty_title_accent">you</span>.</h1>
+  <p class="tagline" data-i18n="ty_sub">
+    I'm happy to walk through any part of the code, explain architecture decisions, or discuss how this project could be extended for real production use.
+  </p>
+  <div class="cover-meta">
+    <div class="cover-chip"><i class="fa-solid fa-envelope"></i> sosinal@example.com</div>
+    <div class="cover-chip"><i class="fa-brands fa-github"></i> github.com/sosinal</div>
+    <div class="cover-chip"><i class="fa-solid fa-globe"></i> <span data-i18n="ty_chip3">Live demo available</span></div>
+  </div>
+  <div class="cover-footer">Asni Guest House · Ferenj Arada, Jimma · Ethiopia 🇪🇹</div>
+</section>
+
+</div>
+<!--
+<script src="presentation.js"></script>
+-->
+<script src="modules/pres/pres-keys.js"></script>
+<script src="modules/pres/pres-i18n.js"></script>
+<script src="modules/pres/pres-theme.js"></script>
+<script src="modules/pres/pres-nav.js"></script>
+<script src="modules/pres/pres-chrome.js"></script>
+<script src="modules/pres/pres-shortcuts.js"></script>
+<script src="modules/pres/pres-router.js"></script>
+<script src="modules/pres/pres-app.js"></script>
+
+</body>
+</html>
